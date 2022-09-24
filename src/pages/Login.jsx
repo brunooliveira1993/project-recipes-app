@@ -12,14 +12,14 @@ function Login() {
   const [passwordInput, setPasswordInput] = useState('');
 
   // Validation functions
-  const validateLogin = () => {
+  const validateLoginInputs = () => {
     const isEmailValid = REGEX.test(emailInput);
     const isPasswordValid = passwordInput.length > MIN_PASSWORD_LENGTH;
     const areAllInputsValid = isEmailValid && isPasswordValid;
     return !areAllInputsValid;
   };
 
-  const isDisabled = validateLogin();
+  const isDisabled = validateLoginInputs();
 
   // Handling functions
   const handleEmailInput = ({ target: { value } }) => setEmailInput(value);

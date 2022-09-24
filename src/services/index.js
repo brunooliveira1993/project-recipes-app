@@ -6,4 +6,4 @@ export const saveDataToLocalStorageOnLogin = (email) => {
   localStorage.setItem(DRINKS_TOKEN, 1);
 };
 
-export const fn = () => {};
+export const placeholder = () => {};

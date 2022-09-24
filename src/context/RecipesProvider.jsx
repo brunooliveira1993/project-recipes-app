@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 
 function Provider({ children }) {
-  const [state, setState] = useState([]);
+  const [placeholder, setPlaceholder] = useState([]);
 
-  const contextValues = {};
+  const contextValues = {
+    placeholder,
+    setPlaceholder,
+  };
 
   return (
     <RecipesContext.Provider value={ contextValues }>
