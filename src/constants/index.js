@@ -6,7 +6,7 @@ export const DRINKS_BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
 export const MEALS_BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
 
 // API Endpoints
-export const CATEGORY_LISTING_ENDPOINT = 'list.php?c=list';
+export const CATEGORY_CATALOG_ENDPOINT = 'list.php?c=list';
 export const CATEGORY_RECIPES_ENDPOINT = 'filter.php?c=';
 export const DEFAULT_ENDPOINT = 'search.php?s=';
 export const DRINKS_INGREDIENT_ENDPOINT = 'search.php?i=';
@@ -33,7 +33,7 @@ export const USER_KEY = 'user';
 
 // Numbers
 export const PASSWORD_MIN_LENGTH = 6;
-export const LIST_MAX_SIZE = 12;
+export const DATA_MAX_SIZE = 12;
 
 // Path
 export const DRINKS_PATH = '/drinks';
