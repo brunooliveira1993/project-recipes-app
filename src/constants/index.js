@@ -1,3 +1,60 @@
-export const USER = 'user';
-export const MEALS_TOKEN = 'mealsToken';
-export const DRINKS_TOKEN = 'drinksToken';
+// Para alterar o nome de qualquer variavel, coloque o cursor em cima
+// do nome da variavel e aperte F2
+
+// API URLs
+export const DRINKS_BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
+export const MEALS_BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
+
+// API Endpoints
+export const CATEGORY_LISTING_ENDPOINT = 'list.php?c=list';
+export const CATEGORY_RECIPES_ENDPOINT = 'filter.php?c=';
+export const DEFAULT_ENDPOINT = 'search.php?s=';
+export const DRINKS_INGREDIENT_ENDPOINT = 'search.php?i=';
+export const FIRST_LETTER_ENDPOINT = 'search.php?f=';
+export const MEALS_INGREDIENT_ENDPOINT = 'filter.php?i=';
+
+// Button names
+export const ALL_BTN = 'All';
+export const DONE_RECIPES_BTN = 'Done Recipes';
+export const DRINKS_BTN = 'Drinks';
+export const FAVORITE_RECIPES_BTN = 'Favorite Recipes';
+export const FIRST_LETTER_BTN = 'First letter';
+export const INGREDIENT_BTN = 'Ingredient';
+export const NAME_BTN = 'Name';
+export const LOGOUT_BTN = 'Logout';
+export const MEALS_BTN = 'Meals';
+
+// localStorage Keys
+export const DRINKS_TOKEN_KEY = 'drinksToken';
+export const FAVORITE_RECIPES_KEY = 'favoriteRecipes';
+export const IN_PROGRESS_RECIPES_KEY = 'inProgressRecipes';
+export const MEALS_TOKEN_KEY = 'mealsToken';
+export const USER_KEY = 'user';
+
+// Numbers
+export const PASSWORD_MIN_LENGTH = 6;
+export const LIST_MAX_SIZE = 12;
+
+// Path
+export const DRINKS_PATH = '/drinks';
+export const DONE_RECIPES_PATH = '/done-recipes';
+export const FAVORITE_RECIPES_PATH = '/favorite-recipes';
+export const IN_PROGRESS_PATH = '/in-progress';
+export const MEALS_PATH = '/meals';
+export const PROFILE_PATH = '/profile';
+
+// regEx
+export const EMAIL_REGEX = /\S+@\S+\.\S+/;
+
+// Search type values
+export const FIRST_LETTER_VALUE = 'firstLetter';
+export const INGREDIENT_VALUE = 'ingredient';
+export const NAME_VALUE = 'name';
+
+// const ABC = '/abc';
+// const id = '123';
+// const DEF = '/d-ef';
+// const url = `${ABC}/${id}${DEF}`;
+// const urlOne = ABC + `/${id}` + DEF;
+// console.log(url.includes(ABC));
+// console.log(urlOne);

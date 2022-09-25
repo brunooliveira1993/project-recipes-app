@@ -1,9 +1,13 @@
-import { DRINKS_TOKEN, MEALS_TOKEN, USER } from '../constants';
+import { DRINKS_TOKEN_KEY, MEALS_TOKEN_KEY, USER_KEY } from '../constants';
 
 export const saveDataToLocalStorageOnLogin = (email) => {
-  localStorage.setItem(USER, JSON.stringify({ email }));
-  localStorage.setItem(MEALS_TOKEN, 1);
-  localStorage.setItem(DRINKS_TOKEN, 1);
+  localStorage.setItem(USER_KEY, JSON.stringify({ email }));
+  localStorage.setItem(MEALS_TOKEN_KEY, 1);
+  localStorage.setItem(DRINKS_TOKEN_KEY, 1);
 };
 
-export const placeholder = () => {};
+export const fetchRecipes = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
