@@ -23,7 +23,8 @@ function Login() {
 
   const handlePasswordInputt = ({ target: { value } }) => setPasswordInput(value);
 
-  const handleEnterButtonClick = () => {
+  const handleEnterButtonClick = (event) => {
+    event.preventDefault();
     saveDataToLocalStorageOnLogin(emailInput);
     history.push(MEALS_PATH);
   };
