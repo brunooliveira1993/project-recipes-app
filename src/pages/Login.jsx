@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { EMAIL_REGEX, MEALS_PATH, PASSWORD_MIN_LENGTH } from '../constants';
 import { saveDataToLocalStorageOnLogin } from '../services';
-
-// const REGEX = /^[a-zA-Z0-9.]+@[A-Z0-9.-]+\.[A-Z]{2,}$/igm;
-const REGEX = /\S+@\S+\.\S+/;
-const MIN_PASSWORD_LENGTH = 6;
 
 function Login() {
   const history = useHistory();
@@ -13,8 +10,8 @@ function Login() {
 
   // Validation functions
   const validateLoginInputs = () => {
-    const isEmailValid = REGEX.test(emailInput);
-    const isPasswordValid = passwordInput.length > MIN_PASSWORD_LENGTH;
+    const isEmailValid = EMAIL_REGEX.test(emailInput);
+    const isPasswordValid = passwordInput.length > PASSWORD_MIN_LENGTH;
     const areAllInputsValid = isEmailValid && isPasswordValid;
     return !areAllInputsValid;
   };
@@ -26,14 +23,14 @@ function Login() {
 
   const handlePasswordInputt = ({ target: { value } }) => setPasswordInput(value);
 
-  const handleEnterButtonClick = () => {
+  const handleEnterButtonClick = (event) => {
+    event.preventDefault();
     saveDataToLocalStorageOnLogin(emailInput);
-    history.push('/meals');
+    history.push(MEALS_PATH);
   };
 
   return (
     <form onSubmit={ handleEnterButtonClick }>
-      Login
       <input
         data-testid="email-input"
         type="email"

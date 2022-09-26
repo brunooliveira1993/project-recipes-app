@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
+import { fetchRecipes } from '../services';
 
 function Provider({ children }) {
-  const [placeholder, setPlaceholder] = useState([]);
+  const [recipesData, setRecipesData] = useState([]);
+
+  const getRecipesData = async (url) => {
+    const response = await fetchRecipes(url);
+    const data = Object.values(response)[0];
+    setRecipesData(data);
+  };
 
   const contextValues = {
-    placeholder,
-    setPlaceholder,
+    recipesData,
+    getRecipesData,
   };
 
   return (
