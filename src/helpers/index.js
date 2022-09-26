@@ -30,7 +30,7 @@ export const handleSearchApiUrl = (isMeal, searchType, searchInput) => {
 };
 
 console.log(handleSearchApiUrl(true, INGREDIENT_VALUE, 'beef'));
-console.log(handleSearchApiUrl(false, INGREDIENT_VALUE, 'vodka'));
+console.log(handleSearchApiUrl(false, INGREDIENT_VALUE, 'gin'));
 
 export const handleCategoryRecipesApiUrl = (isMeal, category) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_RECIPES_ENDPOINT}${category}`
