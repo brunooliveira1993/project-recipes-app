@@ -1,11 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function CardMain() {
+function CardProfile({ index, img, title }) {
   return (
-    <div>
-      CardMain
+    <div data-testid={ `${index}-recipe-card` }>
+      <img
+        data-testid={ `${index}-card-img` }
+        src={ img }
+        alt="meals-or-drinks-img"
+      />
+      <h2 data-testid={ `${index}-card-name` }>{title}</h2>
     </div>
   );
 }
 
-export default CardMain;
+CardProfile.propTypes = {
+  index: PropTypes.number.isRequired,
+  img: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
+export default CardProfile;
