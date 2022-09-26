@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { useHistory } from 'react-router-dom';
 import { DONE_RECIPES_BTN, DONE_RECIPES_PATH, FAVORITE_RECIPES_BTN,
   FAVORITE_RECIPES_PATH, LOGOUT_BTN } from '../constants';
@@ -8,6 +10,8 @@ function Profile() {
   const history = useHistory();
   return (
     <div>
+      <Header />
+      <Footer />
       <p data-testid="profile-email">{() => getEmailLocalStorage}</p>
       <button
         type="button"

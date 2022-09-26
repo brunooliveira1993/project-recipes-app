@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { DEFAULT_RECIPES_MAX_AMOUNT } from '../constants';
 import RecipesContext from '../context/RecipesContext';
 import { handleDefaultApiUrl, verifyIfMealsOrDrinks } from '../helpers';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Recipes() {
   const { recipesData, getRecipesData } = useContext(RecipesContext);
@@ -18,7 +20,8 @@ function Recipes() {
 
   return (
     <div>
-      recipesData
+      <Header />
+      <Footer />
     </div>
   );
 }
