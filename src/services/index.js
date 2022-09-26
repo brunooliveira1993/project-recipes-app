@@ -6,13 +6,11 @@ export const saveDataToLocalStorageOnLogin = (email) => {
   localStorage.setItem(DRINKS_TOKEN_KEY, 1);
 };
 
-export const getEmailLocalStorage = () => {
-  return JSON.parse(localStorage.getItem(USER_KEY));
-}
+export const getEmailLocalStorage = () => JSON.parse(localStorage.getItem(USER_KEY));
 
 export const removeEmailLocalStorage = () => {
   localStorage.removeItem(USER_KEY);
-}
+};
 
 export const fetchRecipes = async (url) => {
   const response = await fetch(url);
