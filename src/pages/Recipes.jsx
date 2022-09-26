@@ -9,8 +9,6 @@ function Recipes() {
   const { pathname } = useLocation();
 
   const isMeal = verifyIfMealsOrDrinks(pathname);
-  console.log(pathname);
-  console.log(isMeal);
 
   useEffect(() => {
     const url = handleDefaultApiUrl(isMeal);
