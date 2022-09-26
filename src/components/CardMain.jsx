@@ -1,11 +1,16 @@
 import React from 'react';
 
-function CardMain() {
+function CardProfile(props) {
   return (
-    <div>
-      CardMain
+    <div data-testid={`${props.index}-recipe-card`}>
+      <img
+        data-testid={`${props.index}-card-img`}
+        src={props.img}
+        alt='meals-or-drinks-img'
+      />
+      <h2 data-testid={`${props.index}-card-name`}>{props.tittle}</h2>
     </div>
   );
 }
 
-export default CardMain;
+export default CardProfile;
