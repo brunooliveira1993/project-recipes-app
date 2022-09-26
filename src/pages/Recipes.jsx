@@ -11,12 +11,11 @@ function Recipes() {
   const { pathname } = useLocation();
 
   const isMeal = verifyIfMealsOrDrinks(pathname);
-  console.log(isMeal);
 
-  const url = handleDefaultApiUrl(isMeal);
-  console.log(url);
-
-  useEffect(() => getRecipesData(url), []);
+  useEffect(() => {
+    const url = handleDefaultApiUrl(isMeal);
+    getRecipesData(url);
+  }, []);
   console.log(recipesData.slice(0, DEFAULT_RECIPES_MAX_AMOUNT));
 
   return (

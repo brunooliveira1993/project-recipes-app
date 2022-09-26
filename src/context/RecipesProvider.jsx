@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 import { fetchRecipes } from '../services';
-// import { DEFAULT_RECIPES_MAX_AMOUNT } from '../constants';
 
 function Provider({ children }) {
   const [recipesData, setRecipesData] = useState([]);

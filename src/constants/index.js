@@ -35,7 +35,7 @@ export const USER_KEY = 'user';
 // Numbers
 export const DEFAULT_RECIPES_MAX_AMOUNT = 12;
 export const PASSWORD_MIN_LENGTH = 6;
-export const RECOMMENDATIONS_RECIPES_MAX_AMOUT = 6;
+export const RECOMMENDATIONS_RECIPES_MAX_AMOUNT = 6;
 
 // Path
 export const DRINKS_PATH = '/drinks';
@@ -52,11 +52,3 @@ export const EMAIL_REGEX = /\S+@\S+\.\S+/;
 export const FIRST_LETTER_VALUE = 'firstLetter';
 export const INGREDIENT_VALUE = 'ingredient';
 export const NAME_VALUE = 'name';
-
-// const ABC = '/abc';
-// const id = '123';
-// const DEF = '/d-ef';
-// const url = `${ABC}/${id}${DEF}`;
-// const urlOne = ABC + `/${id}` + DEF;
-// console.log(url.includes(ABC));
-// console.log(urlOne);

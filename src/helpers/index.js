@@ -29,30 +29,19 @@ export const handleSearchApiUrl = (isMeal, searchType, searchInput) => {
   }
 };
 
-console.log(handleSearchApiUrl(true, INGREDIENT_VALUE, 'beef'));
-console.log(handleSearchApiUrl(false, INGREDIENT_VALUE, 'vodka'));
-
 export const handleCategoryRecipesApiUrl = (isMeal, category) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_RECIPES_ENDPOINT}${category}`
   : `${DRINKS_BASE_URL}${CATEGORY_RECIPES_ENDPOINT}${category}`);
-
-console.log(handleCategoryRecipesApiUrl(true, 'Beef'));
-console.log(handleCategoryRecipesApiUrl(false, 'Ordinary Drink'));
 
 export const handleCategoryCatalogApiUrl = (isMeal) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`
   : `${DRINKS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`);
 
-console.log(handleCategoryCatalogApiUrl(true));
-console.log(handleCategoryCatalogApiUrl(false));
-
 export const handleRecipeDetailsApiUrl = (isMeal, id) => (isMeal
   ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
   : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`);
 
-console.log(handleRecipeDetailsApiUrl(true, '53065'));
-console.log(handleRecipeDetailsApiUrl(false, '17225'));
-
+// Render functions
 // export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recipeDetails)
 //   .reduce((acc, curr, index) => (
 //     (curr.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`])
