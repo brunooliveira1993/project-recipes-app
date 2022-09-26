@@ -12,6 +12,7 @@ export const DEFAULT_ENDPOINT = 'search.php?s=';
 export const DRINKS_INGREDIENT_ENDPOINT = 'search.php?i=';
 export const FIRST_LETTER_ENDPOINT = 'search.php?f=';
 export const MEALS_INGREDIENT_ENDPOINT = 'filter.php?i=';
+export const RECIPE_DETAILS_ENDPOINT = 'lookup.php?i=';
 
 // Button names
 export const ALL_BTN = 'All';
@@ -32,8 +33,9 @@ export const MEALS_TOKEN_KEY = 'mealsToken';
 export const USER_KEY = 'user';
 
 // Numbers
+export const DEFAULT_RECIPES_MAX_AMOUNT = 12;
 export const PASSWORD_MIN_LENGTH = 6;
-export const DATA_MAX_SIZE = 12;
+export const RECOMMENDATIONS_RECIPES_MAX_AMOUT = 6;
 
 // Path
 export const DRINKS_PATH = '/drinks';

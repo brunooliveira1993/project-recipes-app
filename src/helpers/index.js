@@ -1,7 +1,7 @@
 import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, DRINKS_INGREDIENT_ENDPOINT,
   FIRST_LETTER_VALUE, FIRST_LETTER_ENDPOINT, INGREDIENT_VALUE, MEALS_BASE_URL,
   MEALS_INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
-  CATEGORY_CATALOG_ENDPOINT } from '../constants';
+  CATEGORY_CATALOG_ENDPOINT, RECIPE_DETAILS_ENDPOINT } from '../constants';
 
 // Meals or Drinks verifier
 export const verifyIfMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
@@ -36,9 +36,46 @@ export const handleCategoryRecipesApiUrl = (isMeal, category) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_RECIPES_ENDPOINT}${category}`
   : `${DRINKS_BASE_URL}${CATEGORY_RECIPES_ENDPOINT}${category}`);
 
+console.log(handleCategoryRecipesApiUrl(true, 'Beef'));
+console.log(handleCategoryRecipesApiUrl(false, 'Ordinary Drink'));
+
 export const handleCategoryCatalogApiUrl = (isMeal) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`
   : `${DRINKS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`);
 
 console.log(handleCategoryCatalogApiUrl(true));
 console.log(handleCategoryCatalogApiUrl(false));
+
+export const handleRecipeDetailsApiUrl = (isMeal, id) => (isMeal
+  ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
+  : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`);
+
+console.log(handleRecipeDetailsApiUrl(true, '53065'));
+console.log(handleRecipeDetailsApiUrl(false, '17225'));
+
+// export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recipeDetails)
+//   .reduce((acc, curr, index) => (
+//     (curr.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`])
+//       ? [...acc,
+//         <>
+//           <span>{ `${recipeDetails[`strMeasure${index}`]}` }</span>
+//           <span>{ `${recipeDetails[`strIngredient${index}`]}` }</span>
+//         </>]
+//       : acc
+//   ), []);
+
+export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recipeDetails)
+  .reduce((acc, cur) => {
+    let index = 1;
+    if (cur.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`]) {
+      const newIngredient = (
+        <>
+          <span>{ `${recipeDetails[`strIngredient${index}`]}` }</span>
+          <span>{ `${recipeDetails[`strMeasure${index}`]}` }</span>
+        </>
+      );
+      index += 1;
+      return [...acc, newIngredient];
+    }
+    return acc;
+  }, []);
