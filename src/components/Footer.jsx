@@ -19,7 +19,7 @@ function Footer() {
           <img
             data-testid="meals-bottom-btn"
             src="src/images/mealIcon.svg"
-            alt="icone de comisa"
+            alt="icone de comida"
           />
         </button>
       </Link>
