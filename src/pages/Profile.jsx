@@ -8,6 +8,11 @@ import { getEmailLocalStorage, removeEmailLocalStorage } from '../services';
 
 function Profile() {
   const history = useHistory();
+  const readUser = () => JSON.parse(localStorage.getItem('user'));
+  const teste = () => {
+    const user = readUser();
+    return user.email;
+  };
   return (
     <div>
       <Header />
@@ -32,11 +37,13 @@ function Profile() {
         data-testid="profile-logout-btn"
         onClick={ () => {
           removeEmailLocalStorage();
-          history.push(FAVORITE_RECIPES_PATH);
+          history.push('/');
         } }
       >
         {LOGOUT_BTN}
       </button>
+      <br />
+      <h3 data-testid="profile-email">{ teste() }</h3>
     </div>
   );
 }

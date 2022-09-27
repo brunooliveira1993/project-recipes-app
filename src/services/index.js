@@ -8,9 +8,7 @@ export const saveDataToLocalStorageOnLogin = (email) => {
 
 export const getEmailLocalStorage = () => JSON.parse(localStorage.getItem(USER_KEY));
 
-export const removeEmailLocalStorage = () => {
-  localStorage.removeItem(USER_KEY);
-};
+export const removeEmailLocalStorage = () => localStorage.clear();
 
 export const fetchRecipes = async (url) => {
   const response = await fetch(url);
