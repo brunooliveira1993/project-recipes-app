@@ -15,7 +15,7 @@ function Recipes() {
   const { recipesData, getRecipesData, categories,
     getCategories } = useContext(RecipesContext);
   const { pathname } = useLocation();
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [, setCurrentCategory] = useState(''); // currentCategory
 
   // On mount functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
