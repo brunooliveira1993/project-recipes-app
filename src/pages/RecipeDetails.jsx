@@ -44,7 +44,7 @@ function RecipeDetails() {
                 data-testid={ `${currIngredient.replace(/\D/g, '') - 1}-ingredient-name-and-measure` }
               >
                 <span>{ recipeDetails[currIngredient] }</span>
-                <span>{recipeDetails[`strMeasure${currIngredient?.replace(/\D/g, '')}`]}</span>
+                <span>{ recipeDetails[`strMeasure${currIngredient?.replace(/\D/g, '')}`] }</span>
               </div>,
             ]
             : accIngredientAndMeasure
@@ -52,22 +52,26 @@ function RecipeDetails() {
     </div>
   );
 
-  const renderRecommendations = () => recipesData
-    .slice(0, RECOMMENDATIONS_RECIPES_MAX_AMOUNT)
-    .map((recipe, index) => (
-      <Link
-        key={ !isMeal ? recipe.idMeal : recipe.idDrink }
-        to={ !isMeal
-          ? `${MEALS_PATH}/${recipe.idMeal}`
-          : `${DRINKS_PATH}/${recipe.idDrink}` }
-      >
-        <CardMain
-          index={ index }
-          img={ !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb }
-          title={ !isMeal ? recipe.strMeal : recipe.strDrink }
-        />
-      </Link>
-    ));
+  const renderRecommendations = () => (
+    <div className="recommendations-container">
+      { recipesData
+        .slice(0, RECOMMENDATIONS_RECIPES_MAX_AMOUNT)
+        .map((recipe, index) => (
+          <Link
+            key={ !isMeal ? recipe.idMeal : recipe.idDrink }
+            to={ !isMeal
+              ? `${MEALS_PATH}/${recipe.idMeal}`
+              : `${DRINKS_PATH}/${recipe.idDrink}` }
+          >
+            <CardMain
+              index={ index }
+              img={ !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb }
+              title={ !isMeal ? recipe.strMeal : recipe.strDrink }
+            />
+          </Link>
+        )) }
+    </div>
+  );
   // const renderIngredientsAndMeasures = () => {
   //   const allIngredients = (Object.keys(recipeDetails) || [])
   //     .filter((ingredient) => {
