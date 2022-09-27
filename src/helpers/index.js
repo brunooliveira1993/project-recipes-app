@@ -57,14 +57,14 @@ export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recip
   .reduce((acc, cur) => {
     let index = 1;
     if (cur.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`]) {
-      const newIngredient = (
+      const newIngredientAndMeasure = (
         <>
           <span>{ `${recipeDetails[`strIngredient${index}`]}` }</span>
           <span>{ `${recipeDetails[`strMeasure${index}`]}` }</span>
         </>
       );
       index += 1;
-      return [...acc, newIngredient];
+      return [...acc, newIngredientAndMeasure];
     }
     return acc;
   }, []);

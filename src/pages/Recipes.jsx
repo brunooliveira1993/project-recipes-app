@@ -7,23 +7,27 @@ import { handleCategoryCatalogApiUrl, handleCategoryRecipesApiUrl, handleDefault
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
+import { fetchRecipes } from '../services';
 
 function Recipes() {
   const {
     recipesData,
     getRecipesData,
-    categories,
-    getCategories,
   } = useContext(RecipesContext);
   const { pathname } = useLocation();
   const [, setCurrentCategory] = useState(''); // currentCategory
+  const [categories, setCategories] = useState([]);
 
   // On mount functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
 
   useEffect(() => {
     getRecipesData(handleDefaultApiUrl(isMeal));
-    getCategories(handleCategoryCatalogApiUrl(isMeal));
+    const fetchCategories = async () => {
+      const allCategories = await fetchRecipes(handleCategoryCatalogApiUrl(isMeal));
+      setCategories(allCategories);
+    };
+    fetchCategories();
   }, [isMeal]);
 
   // Handling function
@@ -62,7 +66,7 @@ function Recipes() {
 
   const renderCategoryButtons = () => (
     <div>
-      { categories
+      { (Object.values(categories)[0] || [])
         .slice(0, CATEGORIES_MAX_AMOUNT)
         .map(({ strCategory }) => (
           <button
