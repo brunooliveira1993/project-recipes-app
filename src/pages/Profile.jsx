@@ -1,7 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useHistory } from 'react-router-dom';
 import { DONE_RECIPES_BTN, DONE_RECIPES_PATH, FAVORITE_RECIPES_BTN,
   FAVORITE_RECIPES_PATH, LOGOUT_BTN } from '../constants';
 import { getEmailLocalStorage, removeEmailLocalStorage } from '../services';
