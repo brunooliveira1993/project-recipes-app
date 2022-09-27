@@ -7,24 +7,19 @@ import { handleCategoryCatalogApiUrl, handleCategoryRecipesApiUrl, handleDefault
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
-// import { fetchRecipes } from '../services';
 
 function Recipes() {
-  // const { recipesData, getRecipesData } = useContext(RecipesContext);
-  // const [categories, setCategories] = useState([]);
-  const { recipesData, getRecipesData, categories,
-    getCategories } = useContext(RecipesContext);
+  const {
+    recipesData,
+    getRecipesData,
+    categories,
+    getCategories,
+  } = useContext(RecipesContext);
   const { pathname } = useLocation();
   const [, setCurrentCategory] = useState(''); // currentCategory
 
   // On mount functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
-
-  // const getCategories = async (url) => {
-  //   const allCategories = await fetchRecipes(url);
-  //   setCategories(allCategories);
-  //   return allCategories
-  // };
 
   useEffect(() => {
     getRecipesData(handleDefaultApiUrl(isMeal));
@@ -64,6 +59,7 @@ function Recipes() {
         />
       </Link>
     ));
+
   const renderCategoryButtons = () => (
     <div>
       { categories

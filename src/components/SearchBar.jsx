@@ -6,7 +6,10 @@ import RecipesContext from '../context/RecipesContext';
 import { handleSearchApiUrl, verifyIfMealsOrDrinks } from '../helpers';
 
 function SearchBar() {
-  const { recipesData, getRecipesData } = useContext(RecipesContext);
+  const {
+    recipesData,
+    getRecipesData,
+  } = useContext(RecipesContext);
   const history = useHistory();
   const { pathname } = useLocation();
   const [searchInput, setSearchInput] = useState('');
