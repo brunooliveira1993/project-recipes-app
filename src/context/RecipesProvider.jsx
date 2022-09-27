@@ -5,6 +5,7 @@ import { fetchRecipes } from '../services';
 
 function Provider({ children }) {
   const [recipesData, setRecipesData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const getRecipesData = async (url) => {
     const response = await fetchRecipes(url);
@@ -12,9 +13,17 @@ function Provider({ children }) {
     setRecipesData(data);
   };
 
+  const getCategories = async (url) => {
+    const response = await fetchRecipes(url);
+    const data = Object.values(response)[0] || [];
+    setCategories(data);
+  };
+
   const contextValues = {
     recipesData,
     getRecipesData,
+    categories,
+    getCategories,
   };
 
   return (

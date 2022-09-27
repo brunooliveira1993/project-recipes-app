@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function CardProfile({ index, img, title }) {
+function CardMain({ index, img, title }) {
   return (
     <div data-testid={ `${index}-recipe-card` }>
       <img
@@ -14,10 +14,10 @@ function CardProfile({ index, img, title }) {
   );
 }
 
-CardProfile.propTypes = {
+CardMain.propTypes = {
   index: PropTypes.number.isRequired,
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default CardProfile;
+export default CardMain;

@@ -33,6 +33,7 @@ export const MEALS_TOKEN_KEY = 'mealsToken';
 export const USER_KEY = 'user';
 
 // Numbers
+export const CATEGORIES_MAX_AMOUNT = 5;
 export const DEFAULT_RECIPES_MAX_AMOUNT = 12;
 export const PASSWORD_MIN_LENGTH = 6;
 export const RECOMMENDATIONS_RECIPES_MAX_AMOUNT = 6;
