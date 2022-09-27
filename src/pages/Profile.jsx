@@ -9,6 +9,7 @@ import { getEmailLocalStorage, removeEmailLocalStorage } from '../services';
 function Profile() {
   const history = useHistory();
   const readUser = () => JSON.parse(localStorage.getItem('user'));
+
   const teste = () => {
     const user = readUser();
     return user.email;
