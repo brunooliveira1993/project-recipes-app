@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [actSearch, setActSearch] = useState(false);
@@ -33,7 +34,7 @@ function Header() {
         )
       }
       {
-        actSearch && <input data-testid="search-input" />
+        actSearch && <SearchBar />
       }
       <Link to="/profile">
         <img

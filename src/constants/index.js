@@ -9,9 +9,8 @@ export const MEALS_BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
 export const CATEGORY_CATALOG_ENDPOINT = 'list.php?c=list';
 export const CATEGORY_RECIPES_ENDPOINT = 'filter.php?c=';
 export const DEFAULT_ENDPOINT = 'search.php?s=';
-export const DRINKS_INGREDIENT_ENDPOINT = 'search.php?i=';
 export const FIRST_LETTER_ENDPOINT = 'search.php?f=';
-export const MEALS_INGREDIENT_ENDPOINT = 'filter.php?i=';
+export const INGREDIENT_ENDPOINT = 'filter.php?i=';
 export const RECIPE_DETAILS_ENDPOINT = 'lookup.php?i=';
 
 // Button names
@@ -24,6 +23,7 @@ export const INGREDIENT_BTN = 'Ingredient';
 export const NAME_BTN = 'Name';
 export const LOGOUT_BTN = 'Logout';
 export const MEALS_BTN = 'Meals';
+export const SEARCH_BTN = 'Search';
 
 // localStorage Keys
 export const DRINKS_TOKEN_KEY = 'drinksToken';

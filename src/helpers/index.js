@@ -1,7 +1,7 @@
-import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, DRINKS_INGREDIENT_ENDPOINT,
+import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, RECIPE_DETAILS_ENDPOINT,
   FIRST_LETTER_VALUE, FIRST_LETTER_ENDPOINT, INGREDIENT_VALUE, MEALS_BASE_URL,
-  MEALS_INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
-  CATEGORY_CATALOG_ENDPOINT, RECIPE_DETAILS_ENDPOINT } from '../constants';
+  INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
+  CATEGORY_CATALOG_ENDPOINT } from '../constants';
 
 // Meals or Drinks verifier
 export const verifyIfMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
@@ -19,8 +19,8 @@ export const handleSearchApiUrl = (isMeal, searchType, searchInput) => {
   }
   if (searchType === INGREDIENT_VALUE) {
     return isMeal
-      ? `${MEALS_BASE_URL}${MEALS_INGREDIENT_ENDPOINT}${searchInput}`
-      : `${DRINKS_BASE_URL}${DRINKS_INGREDIENT_ENDPOINT}${searchInput}`;
+      ? `${MEALS_BASE_URL}${INGREDIENT_ENDPOINT}${searchInput}`
+      : `${DRINKS_BASE_URL}${INGREDIENT_ENDPOINT}${searchInput}`;
   }
   if (searchType === FIRST_LETTER_VALUE) {
     return isMeal

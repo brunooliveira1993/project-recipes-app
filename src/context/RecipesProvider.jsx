@@ -8,7 +8,7 @@ function Provider({ children }) {
 
   const getRecipesData = async (url) => {
     const response = await fetchRecipes(url);
-    const data = Object.values(response)[0];
+    const data = Object.values(response)[0] || [];
     setRecipesData(data);
   };
 
