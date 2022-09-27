@@ -32,15 +32,17 @@ function Recipes() {
   }, [isMeal]);
 
   // Handling function
+  const toggleCategoryButton = (category) => (prevCategory) => {
+    if (prevCategory === category) {
+      getRecipesData(handleDefaultApiUrl(isMeal));
+      return '';
+    }
+    getRecipesData(handleCategoryRecipesApiUrl(isMeal, category));
+    return category;
+  };
+
   const handleCategoryButtonClick = ({ target: { dataset: { category } } }) => {
-    setCurrentCategory((prevCategory) => {
-      if (prevCategory === category) {
-        getRecipesData(handleDefaultApiUrl(isMeal));
-        return '';
-      }
-      getRecipesData(handleCategoryRecipesApiUrl(isMeal, category));
-      return category;
-    });
+    setCurrentCategory(toggleCategoryButton(category));
   };
 
   const handleAllCategoriesButtonClick = () => {
@@ -62,24 +64,21 @@ function Recipes() {
         />
       </Link>
     ));
-  const renderCategories = () => categories
-    .slice(0, CATEGORIES_MAX_AMOUNT)
-    .map(({ strCategory }) => (
-      <button
-        data-testid={ `${strCategory}-category-filter` }
-        key={ strCategory }
-        type="button"
-        data-category={ strCategory }
-        onClick={ handleCategoryButtonClick }
-      >
-        { strCategory }
-      </button>
-    ));
-
-  return (
+  const renderCategoryButtons = () => (
     <div>
-      <Header />
-      { renderCategories() }
+      { categories
+        .slice(0, CATEGORIES_MAX_AMOUNT)
+        .map(({ strCategory }) => (
+          <button
+            data-testid={ `${strCategory}-category-filter` }
+            key={ strCategory }
+            type="button"
+            data-category={ strCategory }
+            onClick={ handleCategoryButtonClick }
+          >
+            { strCategory }
+          </button>
+        )) }
       <button
         data-testid="All-category-filter"
         type="button"
@@ -87,6 +86,13 @@ function Recipes() {
       >
         { ALL_BTN }
       </button>
+    </div>
+  );
+
+  return (
+    <div>
+      <Header />
+      { renderCategoryButtons() }
       { renderRecipes() }
       <Footer />
     </div>

@@ -16,6 +16,10 @@ function SearchBar() {
   const isMeal = verifyIfMealsOrDrinks(pathname);
 
   // Validation functions
+  const verifyInputBeforeSearchByFirstLetter = () => (searchInput.length > 1
+    ? global.alert('Your search must have only 1 (one) character')
+    : getRecipesData(handleSearchApiUrl(isMeal, searchType, searchInput)));
+
   const verifySearchResultAmount = () => {
     if (recipesData.length === 1) {
       const recipeId = Object.values(recipesData[0])[0];
@@ -38,9 +42,7 @@ function SearchBar() {
 
   const handleSearchButtonClick = () => {
     if (searchType === FIRST_LETTER_VALUE) {
-      return searchInput.length > 1
-        ? global.alert('Your search must have only 1 (one) character')
-        : getRecipesData(handleSearchApiUrl(isMeal, searchType, searchInput));
+      return verifyInputBeforeSearchByFirstLetter();
     }
     getRecipesData(handleSearchApiUrl(isMeal, searchType, searchInput));
     setVerifySearchResult(true);
