@@ -18,7 +18,7 @@ function Recipes() {
   const [, setCurrentCategory] = useState(''); // currentCategory
   const [categories, setCategories] = useState([]);
 
-  // On mount functions
+  // On update functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
 
   useEffect(() => {

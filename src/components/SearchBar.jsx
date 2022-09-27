@@ -16,6 +16,7 @@ function SearchBar() {
   const [searchType, setSearchType] = useState(INGREDIENT_VALUE);
   const [verifySearchResult, setVerifySearchResult] = useState(false);
 
+  // On update functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
 
   // Validation functions
