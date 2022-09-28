@@ -26,6 +26,7 @@ export const MEALS_BTN = 'Meals';
 export const SEARCH_BTN = 'Search';
 
 // localStorage Keys
+export const DONE_RECIPES_KEY = 'doneRecipes';
 export const DRINKS_TOKEN_KEY = 'drinksToken';
 export const FAVORITE_RECIPES_KEY = 'favoriteRecipes';
 export const IN_PROGRESS_RECIPES_KEY = 'inProgressRecipes';

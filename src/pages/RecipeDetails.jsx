@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import CardMain from '../components/CardMain';
-import { DRINKS_PATH, MEALS_PATH,
-  RECOMMENDATIONS_RECIPES_MAX_AMOUNT } from '../constants';
 import RecipesContext from '../context/RecipesContext';
 import { handleDefaultApiUrl, handleRecipeDetailsApiUrl,
-  handleRemoveFavoriteDataStructure,
-  handleSaveFavoriteDataStructure,
+  handleRemoveFavorite,
+  handleSaveFavorite,
+  isRecipeDone,
+  isRecipeInProgress,
   verifyIfMealsOrDrinks } from '../helpers';
-import { fetchRecipes, getFavoriteRecipesFromLocalStorage,
+import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage } from '../services';
+import { DRINKS_PATH, IN_PROGRESS_PATH, MEALS_PATH,
+  RECOMMENDATIONS_RECIPES_MAX_AMOUNT } from '../constants';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -20,19 +25,21 @@ function RecipeDetails() {
   } = useContext(RecipesContext);
   const { id } = useParams();
   const { pathname } = useLocation();
+  const history = useHistory();
   const [recipeDetails, setRecipeDetails] = useState({});
   const [isCopied, setIsCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  // On mount Functions
   const isMeal = verifyIfMealsOrDrinks(pathname);
+  const isInProgress = isRecipeInProgress(isMeal, id);
+  const isDone = isRecipeDone(id);
 
   const isCurrentRecipeFavorite = () => {
-    const currentFavoriteRecipes = getFavoriteRecipesFromLocalStorage() || [];
+    const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
     const isCurrentRecipeIdAlreadySaved = currentFavoriteRecipes
       .some(({ id: favoriteId }) => favoriteId === id);
-    console.log(isCurrentRecipeIdAlreadySaved);
     setIsFavorite(isCurrentRecipeIdAlreadySaved);
-    // if (isCurrentRecipeIdAlreadySaved) setIsFavorite(isCurrentRecipeIdAlreadySaved);
   };
 
   useEffect(() => {
@@ -40,11 +47,9 @@ function RecipeDetails() {
       if (!id || typeof id !== 'string') return;
       const data = await fetchRecipes(handleRecipeDetailsApiUrl(isMeal, id));
       const newRecipeDetails = Object.values(data)[0][0];
-      setRecipeDetails(() => {
-        getRecipesData(handleDefaultApiUrl(!isMeal));
-        isCurrentRecipeFavorite();
-        return newRecipeDetails;
-      });
+      setRecipeDetails(newRecipeDetails);
+      getRecipesData(handleDefaultApiUrl(!isMeal));
+      isCurrentRecipeFavorite();
     };
     fetchRecipeDetails();
   }, [id]);
@@ -56,12 +61,12 @@ function RecipeDetails() {
   };
 
   const saveCurrentRecipe = () => {
-    handleFavoritesLocalStorage(handleSaveFavoriteDataStructure(isMeal, recipeDetails));
+    handleFavoritesLocalStorage(handleSaveFavorite(isMeal, recipeDetails));
     setIsFavorite(true);
   };
 
   const removeCurrentRecipe = () => {
-    handleFavoritesLocalStorage(handleRemoveFavoriteDataStructure(id));
+    handleFavoritesLocalStorage(handleRemoveFavorite(id));
     setIsFavorite(false);
   };
 
@@ -69,47 +74,76 @@ function RecipeDetails() {
     ? removeCurrentRecipe()
     : saveCurrentRecipe());
 
-  // Render functions
-  const renderIngredientsAndMeasures = () => (
-    <div data-testid="instructions">
-      { (Object.keys(recipeDetails) || [])
-        .reduce((accIngredientAndMeasure, currIngredient) => (
-          (currIngredient.includes('strIngredient') && recipeDetails[currIngredient])
-            ? [
-              ...accIngredientAndMeasure,
-              <div
-                key={ currIngredient }
-                data-testid={ `${currIngredient.replace(/\D/g, '') - 1}-ingredient-name-and-measure` }
-              >
-                <span>{ recipeDetails[currIngredient] }</span>
-                <span>{ recipeDetails[`strMeasure${currIngredient?.replace(/\D/g, '')}`] }</span>
-              </div>,
-            ]
-            : accIngredientAndMeasure
-        ), []) }
-    </div>
-  );
+  const handleStartRecipeButtonClick = () => history
+    .push(`${pathname}${IN_PROGRESS_PATH}`);
 
-  const renderRecommendations = () => (
-    <div className="recommendations-container">
-      { recipesData
-        .slice(0, Math.min(RECOMMENDATIONS_RECIPES_MAX_AMOUNT, recipesData.length))
-        .map((recipe, index) => (
-          <Link
-            key={ !isMeal ? recipe.idMeal : recipe.idDrink }
-            to={ !isMeal
-              ? `${MEALS_PATH}/${recipe.idMeal}`
-              : `${DRINKS_PATH}/${recipe.idDrink}` }
-          >
-            <CardMain
-              index={ index }
-              img={ !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb }
-              title={ !isMeal ? recipe.strMeal : recipe.strDrink }
-            />
-          </Link>
-        )) }
-    </div>
-  );
+  // Rendering functions
+  const getIngredientsAndMeasuresInfoFromDetails = (accIngredientAndMeasure, currKey) => {
+    const isCurrentKeyAnIngredient = currKey.includes('strIngredient');
+    const doesCurrentIngredientHaveValue = recipeDetails[currKey];
+
+    if (isCurrentKeyAnIngredient && doesCurrentIngredientHaveValue) {
+      const ingredientIndex = currKey?.replace(/\D/g, '');
+      const ingredient = recipeDetails[currKey];
+      const measure = recipeDetails[`strMeasure${ingredientIndex}`];
+      const newIngredientAndMeasure = (
+        <div
+          key={ currKey }
+          data-testid={ `${ingredientIndex - 1}-ingredient-name-and-measure` }
+        >
+          <span>{ ingredient }</span>
+          <span>{ measure }</span>
+        </div>
+      );
+      return [...accIngredientAndMeasure, newIngredientAndMeasure];
+    }
+    return accIngredientAndMeasure;
+  };
+
+  const renderIngredientsAndMeasures = () => {
+    const recipeDetailsKeys = (Object.keys(recipeDetails) || []);
+    const ingredientsAndMeasuresInfo = recipeDetailsKeys
+      .reduce(getIngredientsAndMeasuresInfoFromDetails, []);
+
+    return (
+      <div data-testid="instructions">
+        { ingredientsAndMeasuresInfo }
+      </div>
+    );
+  };
+
+  const renderRecommendations = () => {
+    const recommendedRecipes = recipesData
+      .slice(0, Math.min(RECOMMENDATIONS_RECIPES_MAX_AMOUNT, recipesData.length));
+
+    const recommendedRecipesCards = recommendedRecipes.map((recipe, index) => {
+      const recommendationId = !isMeal ? recipe.idMeal : recipe.idDrink;
+      const image = !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb;
+      const title = !isMeal ? recipe.strMeal : recipe.strDrink;
+      const path = !isMeal
+        ? `${MEALS_PATH}/${recommendationId}`
+        : `${DRINKS_PATH}/${recommendationId}`;
+      return (
+        <Link
+          key={ recommendationId }
+          to={ path }
+        >
+          <CardMain
+            isRecommendation
+            index={ index }
+            img={ image }
+            title={ title }
+          />
+        </Link>
+      );
+    });
+
+    return (
+      <div className="recommendations-container">
+        { recommendedRecipesCards }
+      </div>
+    );
+  };
   // const renderIngredientsAndMeasures = () => {
   //   const allIngredients = (Object.keys(recipeDetails) || [])
   //     .filter((ingredient) => {
@@ -120,35 +154,20 @@ function RecipeDetails() {
 
   return (
     <div>
-      <button
+      <input
         data-testid="share-btn"
-        type="button"
+        type="image"
+        src={ shareIcon }
+        alt="share button"
         onClick={ handleShareButtonClick }
-      >
-        <img
-          src="src/images/shareIcon.svg"
-          alt="share button"
-        />
-      </button>
+      />
       { isCopied && <span>Link copied!</span> }
-      {/* <button
-        data-testid="favorite-btn"
-        type="button"
-        onClick={ handleFavoriteButtonClick }
-      >
-        <img
-          src={ isFavorite
-            ? 'src/images/whiteHeartIcon.svg'
-            : 'src/images/blackHeartIcon.svg' }
-          alt="favorite button"
-        />whiteHeartIcon
-      </button> */}
       <input
         data-testid="favorite-btn"
         type="image"
         src={ isFavorite
-          ? 'src/images/blackHeartIcon.svg'
-          : 'src/images/whiteHeartIcon.svg' }
+          ? blackHeartIcon
+          : whiteHeartIcon }
         alt="favorite button"
         onClick={ handleFavoriteButtonClick }
       />
@@ -181,12 +200,14 @@ function RecipeDetails() {
           />
         </div>) }
       { renderRecommendations() }
-      <button
-        data-testid="start-recipe-btn"
-        type="button"
-      >
-        Start Recipe
-      </button>
+      { !isDone && (
+        <button
+          data-testid="start-recipe-btn"
+          type="button"
+          onClick={ handleStartRecipeButtonClick }
+        >
+          { isInProgress ? 'Continue Recipe' : 'Start Recipe' }
+        </button>) }
     </div>
   );
 }

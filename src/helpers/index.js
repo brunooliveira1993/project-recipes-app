@@ -2,7 +2,7 @@ import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, RECIPE_DETAILS_ENDPOINT,
   FIRST_LETTER_VALUE, FIRST_LETTER_ENDPOINT, INGREDIENT_VALUE, MEALS_BASE_URL,
   INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
   CATEGORY_CATALOG_ENDPOINT } from '../constants';
-import { getFavoriteRecipesFromLocalStorage } from '../services';
+import { getDoneFromLocalStorage, getFavoriteFromLocalStorage, getInProgressFromLocalStorage } from '../services';
 
 // Meals or Drinks verifier
 export const verifyIfMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
@@ -42,9 +42,9 @@ export const handleRecipeDetailsApiUrl = (isMeal, id) => (isMeal
   ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
   : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`);
 
-// Handling functions
-export const handleSaveFavoriteDataStructure = (isMeal, recipeDetails) => {
-  const currentFavoriteRecipes = getFavoriteRecipesFromLocalStorage() || [];
+// Local storage handlers
+export const handleSaveFavorite = (isMeal, recipeDetails) => {
+  const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
   const newFavoriteRecipe = {
     id: isMeal ? recipeDetails.idMeal : recipeDetails.idDrink,
     type: isMeal ? 'meal' : 'drink',
@@ -57,9 +57,29 @@ export const handleSaveFavoriteDataStructure = (isMeal, recipeDetails) => {
   return [...currentFavoriteRecipes, newFavoriteRecipe];
 };
 
-export const handleRemoveFavoriteDataStructure = (id) => {
-  const currentFavoriteRecipes = getFavoriteRecipesFromLocalStorage() || [];
+export const handleRemoveFavorite = (id) => {
+  const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
   const updatedFavoriteRecipes = currentFavoriteRecipes
     .filter(({ id: favoriteId }) => favoriteId !== id);
   return updatedFavoriteRecipes;
+};
+
+export const isRecipeInProgress = (isMeal, id) => {
+  const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
+  const currentRecipeType = isMeal
+    ? currentRecipesInProgress.meals
+    : currentRecipesInProgress.drinks;
+  if (currentRecipeType) {
+    const isInProgress = Object.keys(currentRecipeType)
+      .some((inProgressId) => inProgressId === id);
+    return isInProgress;
+  }
+  return false;
+};
+
+export const isRecipeDone = (id) => {
+  const currentDoneRecipes = getDoneFromLocalStorage() || [];
+  const isDone = currentDoneRecipes
+    .some(({ id: doneId }) => doneId === id);
+  return isDone;
 };
