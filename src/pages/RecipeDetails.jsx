@@ -190,8 +190,8 @@ function RecipeDetails() {
       { isMeal && (
         <div data-testid="video">
           <iframe
-            width="853"
-            height="480"
+            width="320"
+            height="180"
             src={ `${recipeDetails.strYoutube?.replace('watch?v=', 'embed/')}` }
             frameBorder="0"
             allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
