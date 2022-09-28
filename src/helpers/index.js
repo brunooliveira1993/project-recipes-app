@@ -2,6 +2,7 @@ import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, RECIPE_DETAILS_ENDPOINT,
   FIRST_LETTER_VALUE, FIRST_LETTER_ENDPOINT, INGREDIENT_VALUE, MEALS_BASE_URL,
   INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
   CATEGORY_CATALOG_ENDPOINT } from '../constants';
+import { getDoneFromLocalStorage, getFavoriteFromLocalStorage, getInProgressFromLocalStorage } from '../services';
 
 // Meals or Drinks verifier
 export const verifyIfMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
@@ -41,30 +42,44 @@ export const handleRecipeDetailsApiUrl = (isMeal, id) => (isMeal
   ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
   : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`);
 
-// Render functions
-// export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recipeDetails)
-//   .reduce((acc, curr, index) => (
-//     (curr.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`])
-//       ? [...acc,
-//         <>
-//           <span>{ `${recipeDetails[`strMeasure${index}`]}` }</span>
-//           <span>{ `${recipeDetails[`strIngredient${index}`]}` }</span>
-//         </>]
-//       : acc
-//   ), []);
+// Local storage handlers
+export const handleSaveFavorite = (isMeal, recipeDetails) => {
+  const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
+  const newFavoriteRecipe = {
+    id: isMeal ? recipeDetails.idMeal : recipeDetails.idDrink,
+    type: isMeal ? 'meal' : 'drink',
+    nationality: isMeal ? recipeDetails.strArea : '',
+    category: recipeDetails.strCategory,
+    alcoholicOrNot: isMeal ? '' : recipeDetails.strAlcoholic,
+    name: isMeal ? recipeDetails.strMeal : recipeDetails.strDrink,
+    image: isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
+  };
+  return [...currentFavoriteRecipes, newFavoriteRecipe];
+};
 
-export const renderIngredientsAndMeasures = (recipeDetails) => Object.keys(recipeDetails)
-  .reduce((acc, cur) => {
-    let index = 1;
-    if (cur.includes(`strIngredient${index}`) && recipeDetails[`strIngredient${index}`]) {
-      const newIngredientAndMeasure = (
-        <>
-          <span>{ `${recipeDetails[`strIngredient${index}`]}` }</span>
-          <span>{ `${recipeDetails[`strMeasure${index}`]}` }</span>
-        </>
-      );
-      index += 1;
-      return [...acc, newIngredientAndMeasure];
-    }
-    return acc;
-  }, []);
+export const handleRemoveFavorite = (id) => {
+  const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
+  const updatedFavoriteRecipes = currentFavoriteRecipes
+    .filter(({ id: favoriteId }) => favoriteId !== id);
+  return updatedFavoriteRecipes;
+};
+
+export const isRecipeInProgress = (isMeal, id) => {
+  const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
+  const currentRecipeType = isMeal
+    ? currentRecipesInProgress.meals
+    : currentRecipesInProgress.drinks;
+  if (currentRecipeType) {
+    const isInProgress = Object.keys(currentRecipeType)
+      .some((inProgressId) => inProgressId === id);
+    return isInProgress;
+  }
+  return false;
+};
+
+export const isRecipeDone = (id) => {
+  const currentDoneRecipes = getDoneFromLocalStorage() || [];
+  const isDone = currentDoneRecipes
+    .some(({ id: doneId }) => doneId === id);
+  return isDone;
+};

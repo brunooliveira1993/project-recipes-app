@@ -50,7 +50,7 @@ function Recipes() {
 
   // Rendering functions
   const renderRecipes = () => recipesData
-    .slice(0, DEFAULT_RECIPES_MAX_AMOUNT)
+    .slice(0, Math.min(DEFAULT_RECIPES_MAX_AMOUNT, recipesData.length))
     .map((recipe, index) => (
       <Link
         key={ isMeal ? recipe.idMeal : recipe.idDrink }
