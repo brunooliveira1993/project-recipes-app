@@ -1,27 +1,25 @@
 import React from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
 
 function Footer() {
   return (
     <div data-testid="footer" className="footer">
       <Link to="/drinks">
-        <button type="button">
-          <img
-            data-testid="drinks-bottom-btn"
-            src="src/images/drinkIcon.svg"
-            alt="icone de drinks"
-          />
-        </button>
+        <img
+          data-testid="drinks-bottom-btn"
+          src={ drinkIcon }
+          alt="icone de drinks"
+        />
       </Link>
       <Link to="/meals">
-        <button type="button">
-          <img
-            data-testid="meals-bottom-btn"
-            src="src/images/mealIcon.svg"
-            alt="icone de comida"
-          />
-        </button>
+        <img
+          data-testid="meals-bottom-btn"
+          src={ mealIcon }
+          alt="icone de comida"
+        />
       </Link>
     </div>
   );

@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { FIRST_LETTER_BTN, FIRST_LETTER_VALUE, INGREDIENT_BTN, INGREDIENT_VALUE,
   NAME_BTN, NAME_VALUE, SEARCH_BTN } from '../constants';
 import RecipesContext from '../context/RecipesContext';
-import { handleSearchApiUrl, verifyIfMealsOrDrinks } from '../helpers';
+import { handleSearchApiUrl, isMealsOrDrinks } from '../helpers';
 
 function SearchBar() {
   const {
@@ -17,7 +17,7 @@ function SearchBar() {
   const [verifySearchResult, setVerifySearchResult] = useState(false);
 
   // On update functions
-  const isMeal = verifyIfMealsOrDrinks(pathname);
+  const isMeal = isMealsOrDrinks(pathname);
 
   // Validation functions
   const verifyInputBeforeSearchByFirstLetter = () => (searchInput.length > 1

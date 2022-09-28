@@ -2,10 +2,11 @@ import { DEFAULT_ENDPOINT, DRINKS_BASE_URL, RECIPE_DETAILS_ENDPOINT,
   FIRST_LETTER_VALUE, FIRST_LETTER_ENDPOINT, INGREDIENT_VALUE, MEALS_BASE_URL,
   INGREDIENT_ENDPOINT, MEALS_PATH, NAME_VALUE, CATEGORY_RECIPES_ENDPOINT,
   CATEGORY_CATALOG_ENDPOINT } from '../constants';
-import { getDoneFromLocalStorage, getFavoriteFromLocalStorage, getInProgressFromLocalStorage } from '../services';
+import { getDoneFromLocalStorage, getFavoriteFromLocalStorage,
+  getInProgressFromLocalStorage } from '../services';
 
 // Meals or Drinks verifier
-export const verifyIfMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
+export const isMealsOrDrinks = (pathname) => pathname.includes(MEALS_PATH);
 
 // URL Handlers
 export const handleDefaultApiUrl = (isMeal) => (isMeal

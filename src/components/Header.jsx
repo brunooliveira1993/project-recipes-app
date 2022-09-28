@@ -1,6 +1,8 @@
 import { React, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import searchIcon from '../images/searchIcon.svg';
+import profileIcon from '../images/profileIcon.svg';
 
 function Header() {
   const [actSearch, setActSearch] = useState(false);
@@ -24,13 +26,13 @@ function Header() {
       {
         (pathname === '/meals' || pathname === '/drinks')
         && (
-          <button type="button" onClick={ searchFunc }>
-            <img
-              src="src/images/searchIcon.svg"
-              alt="Imagem de busca"
-              data-testid="search-top-btn"
-            />
-          </button>
+          <input
+            data-testid="search-top-btn"
+            type="image"
+            src={ searchIcon }
+            alt="Imagem de busca"
+            onClick={ searchFunc }
+          />
         )
       }
       {
@@ -38,7 +40,7 @@ function Header() {
       }
       <Link to="/profile">
         <img
-          src="src/images/profileIcon.svg"
+          src={ profileIcon }
           alt="Imagem de perfil"
           data-testid="profile-top-btn"
         />

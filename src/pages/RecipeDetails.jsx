@@ -7,7 +7,7 @@ import { handleDefaultApiUrl, handleRecipeDetailsApiUrl,
   handleSaveFavorite,
   isRecipeDone,
   isRecipeInProgress,
-  verifyIfMealsOrDrinks } from '../helpers';
+  isMealsOrDrinks } from '../helpers';
 import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage } from '../services';
 import { DRINKS_PATH, IN_PROGRESS_PATH, MEALS_PATH,
@@ -31,7 +31,7 @@ function RecipeDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
 
   // On mount Functions
-  const isMeal = verifyIfMealsOrDrinks(pathname);
+  const isMeal = isMealsOrDrinks(pathname);
   const isInProgress = isRecipeInProgress(isMeal, id);
   const isDone = isRecipeDone(id);
 
@@ -116,27 +116,28 @@ function RecipeDetails() {
     const recommendedRecipes = recipesData
       .slice(0, Math.min(RECOMMENDATIONS_RECIPES_MAX_AMOUNT, recipesData.length));
 
-    const recommendedRecipesCards = recommendedRecipes.map((recipe, index) => {
-      const recommendationId = !isMeal ? recipe.idMeal : recipe.idDrink;
-      const image = !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb;
-      const title = !isMeal ? recipe.strMeal : recipe.strDrink;
-      const path = !isMeal
-        ? `${MEALS_PATH}/${recommendationId}`
-        : `${DRINKS_PATH}/${recommendationId}`;
-      return (
-        <Link
-          key={ recommendationId }
-          to={ path }
-        >
-          <CardMain
-            isRecommendation
-            index={ index }
-            img={ image }
-            title={ title }
-          />
-        </Link>
-      );
-    });
+    const recommendedRecipesCards = recommendedRecipes
+      .map((recipe, index) => {
+        const recommendationId = !isMeal ? recipe.idMeal : recipe.idDrink;
+        const image = !isMeal ? recipe.strMealThumb : recipe.strDrinkThumb;
+        const title = !isMeal ? recipe.strMeal : recipe.strDrink;
+        const path = !isMeal
+          ? `${MEALS_PATH}/${recommendationId}`
+          : `${DRINKS_PATH}/${recommendationId}`;
+        return (
+          <Link
+            key={ recommendationId }
+            to={ path }
+          >
+            <CardMain
+              isRecommendation
+              index={ index }
+              img={ image }
+              title={ title }
+            />
+          </Link>
+        );
+      });
 
     return (
       <div className="recommendations-container">

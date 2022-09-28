@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ALL_BTN, CATEGORIES_MAX_AMOUNT, DEFAULT_RECIPES_MAX_AMOUNT } from '../constants';
 import RecipesContext from '../context/RecipesContext';
 import { handleCategoryCatalogApiUrl, handleCategoryRecipesApiUrl, handleDefaultApiUrl,
-  verifyIfMealsOrDrinks } from '../helpers';
+  isMealsOrDrinks } from '../helpers';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
@@ -19,7 +19,7 @@ function Recipes() {
   const [categories, setCategories] = useState([]);
 
   // On update functions
-  const isMeal = verifyIfMealsOrDrinks(pathname);
+  const isMeal = isMealsOrDrinks(pathname);
 
   useEffect(() => {
     getRecipesData(handleDefaultApiUrl(isMeal));
@@ -49,45 +49,66 @@ function Recipes() {
   };
 
   // Rendering functions
-  const renderRecipes = () => recipesData
-    .slice(0, Math.min(DEFAULT_RECIPES_MAX_AMOUNT, recipesData.length))
-    .map((recipe, index) => (
-      <Link
-        key={ isMeal ? recipe.idMeal : recipe.idDrink }
-        to={ `${pathname}/${isMeal ? recipe.idMeal : recipe.idDrink}` }
-      >
-        <CardMain
-          index={ index }
-          img={ isMeal ? recipe.strMealThumb : recipe.strDrinkThumb }
-          title={ isMeal ? recipe.strMeal : recipe.strDrink }
-        />
-      </Link>
-    ));
+  const renderRecipes = () => {
+    const defaultRecipes = recipesData
+      .slice(0, Math.min(DEFAULT_RECIPES_MAX_AMOUNT, recipesData.length));
 
-  const renderCategoryButtons = () => (
-    <div>
-      { (Object.values(categories)[0] || [])
-        .slice(0, CATEGORIES_MAX_AMOUNT)
-        .map(({ strCategory }) => (
-          <button
-            data-testid={ `${strCategory}-category-filter` }
-            key={ strCategory }
-            type="button"
-            data-category={ strCategory }
-            onClick={ handleCategoryButtonClick }
+    const defaultRecipesCards = defaultRecipes
+      .map((recipe, index) => {
+        const id = isMeal ? recipe.idMeal : recipe.idDrink;
+        const path = `${pathname}/${id}`;
+        const imagem = isMeal ? recipe.strMealThumb : recipe.strDrinkThumb;
+        const title = isMeal ? recipe.strMeal : recipe.strDrink;
+        return (
+          <Link
+            key={ id }
+            to={ path }
           >
-            { strCategory }
-          </button>
-        )) }
-      <button
-        data-testid="All-category-filter"
-        type="button"
-        onClick={ handleAllCategoriesButtonClick }
-      >
-        { ALL_BTN }
-      </button>
-    </div>
-  );
+            <CardMain
+              index={ index }
+              img={ imagem }
+              title={ title }
+            />
+          </Link>
+        );
+      });
+
+    return (
+      <div>
+        { defaultRecipesCards }
+      </div>
+    );
+  };
+
+  const renderCategoryButtons = () => {
+    const requiredCategories = (Object.values(categories)[0] || [])
+      .slice(0, CATEGORIES_MAX_AMOUNT);
+
+    const categoryFilterButtons = requiredCategories
+      .map(({ strCategory }) => (
+        <button
+          data-testid={ `${strCategory}-category-filter` }
+          key={ strCategory }
+          type="button"
+          data-category={ strCategory }
+          onClick={ handleCategoryButtonClick }
+        >
+          { strCategory }
+        </button>));
+
+    return (
+      <div>
+        { categoryFilterButtons }
+        <button
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ handleAllCategoriesButtonClick }
+        >
+          { ALL_BTN }
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div>
