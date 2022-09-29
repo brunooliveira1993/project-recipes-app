@@ -15,6 +15,7 @@ import { DRINKS_PATH, IN_PROGRESS_PATH, MEALS_PATH,
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import './RecipeDetails.css';
 
 const copy = require('clipboard-copy');
 
@@ -107,7 +108,10 @@ function RecipeDetails() {
 
     return (
       <div data-testid="instructions">
-        { ingredientsAndMeasuresInfo }
+        <h2>Ingredients</h2>
+        <div className="ingredients-container">
+          { ingredientsAndMeasuresInfo }
+        </div>
       </div>
     );
   };
@@ -185,11 +189,16 @@ function RecipeDetails() {
         alt="recipe"
       />
       { renderIngredientsAndMeasures() }
-      <section data-testid="instructions">
+      <h2>Instructions</h2>
+      <section
+        className="instructions-container"
+        data-testid="instructions"
+      >
         { recipeDetails.strInstructions }
       </section>
       { isMeal && (
         <div data-testid="video">
+          <h2>Video</h2>
           <iframe
             width="320"
             height="180"

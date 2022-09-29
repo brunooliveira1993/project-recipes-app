@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Provider from './context/RecipesProvider';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import RecipeDetails from './pages/RecipeDetails';
