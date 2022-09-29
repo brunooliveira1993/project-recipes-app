@@ -2,11 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import CardMain from '../components/CardMain';
 import RecipesContext from '../context/RecipesContext';
-import { handleDefaultApiUrl, handleRecipeDetailsApiUrl,
-  handleRemoveFavorite,
-  handleSaveFavorite,
-  isRecipeDone,
-  isRecipeInProgress,
+import { handleDefaultApiUrl, handleRecipeDetailsApiUrl, handleRemoveFavorite,
+  handleSaveFavorite, isRecipeDone, isRecipeInProgress,
   isMealsOrDrinks } from '../helpers';
 import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage } from '../services';
@@ -45,7 +42,6 @@ function RecipeDetails() {
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
-      if (!id || typeof id !== 'string') return;
       const data = await fetchRecipes(handleRecipeDetailsApiUrl(isMeal, id));
       const newRecipeDetails = Object.values(data)[0][0];
       setRecipeDetails(newRecipeDetails);
@@ -92,8 +88,7 @@ function RecipeDetails() {
           key={ currKey }
           data-testid={ `${ingredientIndex - 1}-ingredient-name-and-measure` }
         >
-          <span>{ ingredient }</span>
-          <span>{ measure }</span>
+          <span>{ `${ingredient} ${measure}` }</span>
         </div>
       );
       return [...accIngredientAndMeasure, newIngredientAndMeasure];

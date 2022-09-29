@@ -39,11 +39,15 @@ export const handleCategoryCatalogApiUrl = (isMeal) => (isMeal
   ? `${MEALS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`
   : `${DRINKS_BASE_URL}${CATEGORY_CATALOG_ENDPOINT}`);
 
-export const handleRecipeDetailsApiUrl = (isMeal, id) => (isMeal
-  ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
-  : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`);
+export const handleRecipeDetailsApiUrl = (isMeal, id) => {
+  if (!id || typeof id !== 'string') return;
+  return isMeal
+    ? `${MEALS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`
+    : `${DRINKS_BASE_URL}${RECIPE_DETAILS_ENDPOINT}${id}`;
+};
 
 // Local storage handlers
+// Favorite
 export const handleSaveFavorite = (isMeal, recipeDetails) => {
   const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
   const newFavoriteRecipe = {
@@ -65,22 +69,93 @@ export const handleRemoveFavorite = (id) => {
   return updatedFavoriteRecipes;
 };
 
+// In progress
 export const isRecipeInProgress = (isMeal, id) => {
   const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
   const currentRecipeType = isMeal
     ? currentRecipesInProgress.meals
     : currentRecipesInProgress.drinks;
   if (currentRecipeType) {
-    const isInProgress = Object.keys(currentRecipeType)
-      .some((inProgressId) => inProgressId === id);
+    const isInProgress = Object.keys(currentRecipeType).includes(id);
     return isInProgress;
   }
   return false;
 };
 
+export const handleSaveOrRemoveInProgress = (isMeal, id, ingredients) => {
+  const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
+  const typeKey = isMeal ? 'meals' : 'drinks';
+  const recipesOfType = currentRecipesInProgress[typeKey] || {};
+  if (ingredients.length) {
+    const updatedRecipesInProgress = {
+      ...currentRecipesInProgress,
+      [typeKey]: {
+        ...recipesOfType,
+        [id]: ingredients,
+      },
+    };
+    return updatedRecipesInProgress;
+  }
+  const { [id]: idToRemove, ...restOfRecipesOfType } = recipesOfType;
+  const updatedRecipesInProgress = {
+    ...currentRecipesInProgress,
+    [typeKey]: {
+      ...restOfRecipesOfType,
+    },
+  };
+  return updatedRecipesInProgress;
+};
+
+export const getRecipeProgress = (isMeal, id) => {
+  const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
+  const currentRecipeType = isMeal
+    ? currentRecipesInProgress.meals
+    : currentRecipesInProgress.drinks;
+  if (currentRecipeType) {
+    const recipeId = Object.keys(currentRecipeType)
+      .filter((inProgressId) => inProgressId === id);
+    return currentRecipeType[recipeId] || [];
+  }
+  return [];
+};
+
+export const isRecipeFinished = (recipeDetails, usedIngredients) => {
+  const allIngredientsAmount = (Object.keys(recipeDetails) || [])
+    .filter((ingredient) => ingredient.includes('strIngredient')
+      && recipeDetails[ingredient]).length;
+  const allUsedIngredientsAmount = usedIngredients.length;
+  const areBothAmountsEqual = allIngredientsAmount === allUsedIngredientsAmount;
+  return areBothAmountsEqual;
+};
+
+// Done
 export const isRecipeDone = (id) => {
   const currentDoneRecipes = getDoneFromLocalStorage() || [];
   const isDone = currentDoneRecipes
     .some(({ id: doneId }) => doneId === id);
   return isDone;
+};
+
+// const getCurrentDate = () => {
+//   const date = new Date();
+//   const day = date.getDate();
+//   const month = date.getMonth() + 1;
+//   const year = date.getFullYear();
+// };
+
+export const handleAddDone = (isMeal, recipeDetails) => {
+  const currentDoneRecipes = getDoneFromLocalStorage() || [];
+  const newDoneRecipe = {
+    id: isMeal ? recipeDetails.idMeal : recipeDetails.idDrink,
+    type: isMeal ? 'meal' : 'drink',
+    nationality: isMeal ? recipeDetails.strArea : '',
+    category: recipeDetails.strCategory,
+    alcoholicOrNot: isMeal ? '' : recipeDetails.strAlcoholic,
+    name: isMeal ? recipeDetails.strMeal : recipeDetails.strDrink,
+    image: isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
+    doneDate: new Date().toLocaleDateString('pt-br'),
+    tags: isMeal ? recipeDetails.strTags.split(',') : [],
+  };
+  console.log(newDoneRecipe);
+  return [...currentDoneRecipes, newDoneRecipe];
 };
