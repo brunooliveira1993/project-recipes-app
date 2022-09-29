@@ -87,24 +87,23 @@ export const handleSaveOrRemoveInProgress = (isMeal, id, ingredients) => {
   const currentRecipesInProgress = getInProgressFromLocalStorage() || {};
   const typeKey = isMeal ? 'meals' : 'drinks';
   const recipesOfType = currentRecipesInProgress[typeKey] || {};
+  if (ingredients.length) {
+    const updatedRecipesInProgress = {
+      ...currentRecipesInProgress,
+      [typeKey]: {
+        ...recipesOfType,
+        [id]: ingredients,
+      },
+    };
+    return updatedRecipesInProgress;
+  }
+  const { [id]: idToRemove, ...restOfRecipesOfType } = recipesOfType;
   const updatedRecipesInProgress = {
     ...currentRecipesInProgress,
     [typeKey]: {
-      ...recipesOfType,
-      [id]: ingredients,
+      ...restOfRecipesOfType,
     },
   };
-  // const updatedRecipesInProgress = {
-  //   ...currentRecipesInProgress,
-  //   [typeKey]: ingredients.length
-  //     ? {
-  //       ...recipesOfType,
-  //       [id]: ingredients,
-  //     }
-  //     : {
-  //       idToRemove: recipesOfType[id], ...recipesOfType,
-  //     },
-  // };
   return updatedRecipesInProgress;
 };
 
