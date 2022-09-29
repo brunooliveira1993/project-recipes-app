@@ -3,8 +3,9 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { handleRecipeDetailsApiUrl, handleRemoveFavorite, handleSaveFavorite,
   // isRecipeInProgress,
   isMealsOrDrinks, handleSaveOrRemoveInProgress,
-  getRecipeProgress, isRecipeFinished } from '../helpers';
+  getRecipeProgress, isRecipeFinished, handleAddDone } from '../helpers';
 import { fetchRecipes, getFavoriteFromLocalStorage,
+  handleDoneLocalStorage,
   handleFavoritesLocalStorage, handleInProgressLocalStorage } from '../services';
 import { DONE_RECIPES_PATH, IN_PROGRESS_PATH } from '../constants';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -58,7 +59,10 @@ function RecipeInProgress() {
     copy(`http://localhost:3000${pathnameWithoutInProgress}`);
   };
 
-  const handleFinishRecipeButtonClick = () => history.push(DONE_RECIPES_PATH);
+  const handleFinishRecipeButtonClick = () => {
+    history.push(DONE_RECIPES_PATH);
+    handleDoneLocalStorage(handleAddDone(isMeal, recipeDetails));
+  };
 
   // Favorites
   const saveCurrentRecipe = () => {

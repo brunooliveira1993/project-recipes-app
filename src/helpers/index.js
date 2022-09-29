@@ -136,6 +136,13 @@ export const isRecipeDone = (id) => {
   return isDone;
 };
 
+// const getCurrentDate = () => {
+//   const date = new Date();
+//   const day = date.getDate();
+//   const month = date.getMonth() + 1;
+//   const year = date.getFullYear();
+// };
+
 export const handleAddDone = (isMeal, recipeDetails) => {
   const currentDoneRecipes = getDoneFromLocalStorage() || [];
   const newDoneRecipe = {
@@ -146,8 +153,9 @@ export const handleAddDone = (isMeal, recipeDetails) => {
     alcoholicOrNot: isMeal ? '' : recipeDetails.strAlcoholic,
     name: isMeal ? recipeDetails.strMeal : recipeDetails.strDrink,
     image: isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
-    // doneDate: ,
+    doneDate: new Date().toLocaleDateString('pt-br'),
     tags: isMeal ? recipeDetails.strTags.split(',') : [],
   };
+  console.log(newDoneRecipe);
   return [...currentDoneRecipes, newDoneRecipe];
 };
