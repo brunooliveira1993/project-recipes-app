@@ -1,21 +1,19 @@
 .main-recipies {
-  width: 360px;
-  margin: 0px;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  left: 0%;
+  margin: 0%;
   position: absolute;
-  left: 0px;
+  width: 360px;
 }
 
 .recipies-container {
-  width: 336.35px;
-  /* border: red 2px solid; */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
   align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
   justify-items: center;
   margin-bottom: 60px;
+  width: 336.35px;
 }
