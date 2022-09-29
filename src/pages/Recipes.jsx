@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
 import { fetchRecipes } from '../services';
+import './Recipes.css'
 
 function Recipes() {
   const {
@@ -74,7 +75,7 @@ function Recipes() {
       });
 
     return (
-      <div>
+      <div className="recipies-container">
         { defaultRecipesCards }
       </div>
     );
@@ -111,7 +112,7 @@ function Recipes() {
   };
 
   return (
-    <div>
+    <div className="main-recipies">
       <Header />
       { renderCategoryButtons() }
       { renderRecipes() }

@@ -4,6 +4,7 @@ import { FIRST_LETTER_BTN, FIRST_LETTER_VALUE, INGREDIENT_BTN, INGREDIENT_VALUE,
   NAME_BTN, NAME_VALUE, SEARCH_BTN } from '../constants';
 import RecipesContext from '../context/RecipesContext';
 import { handleSearchApiUrl, isMealsOrDrinks } from '../helpers';
+import './SearchBar.css';
 
 function SearchBar() {
   const {
@@ -53,45 +54,49 @@ function SearchBar() {
   };
 
   return (
-    <div>
+    <div className="search-bar">
       <input
+        className="input-search"
         data-testid="search-input"
         type="text"
         name="searchInput"
         value={ searchInput }
         onChange={ handleSearchInput }
       />
-      <input
-        data-testid="ingredient-search-radio"
-        type="radio"
-        name="searchType"
-        id="searchType"
-        checked={ searchType === INGREDIENT_VALUE }
-        value={ INGREDIENT_VALUE }
-        onChange={ handleSearchRadioButton }
-      />
-      { INGREDIENT_BTN }
-      <input
-        data-testid="name-search-radio"
-        type="radio"
-        name="searchType"
-        id="searchType"
-        checked={ searchType === NAME_VALUE }
-        value={ NAME_VALUE }
-        onChange={ handleSearchRadioButton }
-      />
-      { NAME_BTN }
-      <input
-        data-testid="first-letter-search-radio"
-        type="radio"
-        name="searchType"
-        id="searchType"
-        checked={ searchType === FIRST_LETTER_VALUE }
-        value={ FIRST_LETTER_VALUE }
-        onChange={ handleSearchRadioButton }
-      />
-      { FIRST_LETTER_BTN }
+      <div className="radio-inputs">
+        <input
+          data-testid="ingredient-search-radio"
+          type="radio"
+          name="searchType"
+          id="searchType"
+          checked={ searchType === INGREDIENT_VALUE }
+          value={ INGREDIENT_VALUE }
+          onChange={ handleSearchRadioButton }
+        />
+        { INGREDIENT_BTN }
+        <input
+          data-testid="name-search-radio"
+          type="radio"
+          name="searchType"
+          id="searchType"
+          checked={ searchType === NAME_VALUE }
+          value={ NAME_VALUE }
+          onChange={ handleSearchRadioButton }
+        />
+        { NAME_BTN }
+        <input
+          data-testid="first-letter-search-radio"
+          type="radio"
+          name="searchType"
+          id="searchType"
+          checked={ searchType === FIRST_LETTER_VALUE }
+          value={ FIRST_LETTER_VALUE }
+          onChange={ handleSearchRadioButton }
+        />
+        { FIRST_LETTER_BTN }
+      </div>
       <button
+        className="btn-search"
         data-testid="exec-search-btn"
         type="button"
         onClick={ () => handleSearchButtonClick() }

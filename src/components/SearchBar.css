@@ -1,0 +1,33 @@
+.search-bar {
+  width: 336.35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blueviolet;
+  border-radius: 10px 10px 10px 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.input-search {
+  border: 1px solid lightslategray;
+  width: 98%;
+  height: 25px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.radio-inputs {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-search {
+  background-color: rgb(255, 191, 0);
+  width: 70%;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-size: larger;
+  font-weight: bold;
+}

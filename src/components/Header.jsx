@@ -21,12 +21,13 @@ function Header() {
     }
   };
   return (
-    <header>
-      <h1 data-testid="page-title">{convertedName.join(' ')}</h1>
-      {
-        (pathname === '/meals' || pathname === '/drinks')
+    <header className="header">
+      <div className="header-top">
+        {
+          (pathname === '/meals' || pathname === '/drinks')
         && (
           <input
+            className="search-icon"
             data-testid="search-top-btn"
             type="image"
             src={ searchIcon }
@@ -34,17 +35,19 @@ function Header() {
             onClick={ searchFunc }
           />
         )
-      }
+        }
+        <Link to="/profile">
+          <img
+            src={ profileIcon }
+            alt="Imagem de perfil"
+            data-testid="profile-top-btn"
+          />
+        </Link>
+      </div>
+      <h1 data-testid="page-title">{convertedName.join(' ')}</h1>
       {
         actSearch && <SearchBar />
       }
-      <Link to="/profile">
-        <img
-          src={ profileIcon }
-          alt="Imagem de perfil"
-          data-testid="profile-top-btn"
-        />
-      </Link>
     </header>
   );
 }
