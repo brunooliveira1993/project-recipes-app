@@ -8,7 +8,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
 import { fetchRecipes } from '../services';
-import './Recipes.css'
+import './Recipes.css';
 
 function Recipes() {
   const {
