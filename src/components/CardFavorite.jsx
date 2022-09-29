@@ -1,18 +1,28 @@
 import { React, useState } from 'react';
 import '../images/shareIcon.svg';
+import '../images/blackHeartIcon.svg';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import '../App.css';
 
 const copy = require('clipboard-copy');
 
-function CardProfile({ item, index }) {
+function CardFavorite({ item, index, renderPage }) {
   const [isCopy, setIsCopy] = useState(false);
   const history = useHistory();
+
+  const localStorageItem = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
   const copyToClipboard = (copyText) => {
     copy(copyText);
     setIsCopy(true);
+  };
+
+  const removeFavoriteItem = (indexToRemove) => {
+    renderPage(false);
+    const updateFavorite = localStorageItem.filter((_, indexFromLocalStorage) => (
+      indexFromLocalStorage !== indexToRemove));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(updateFavorite));
   };
 
   const clickRedirect = () => history.push(`/${item.type}s/${item.id}`);
@@ -58,18 +68,14 @@ function CardProfile({ item, index }) {
             alt="share"
             data-testid={ `${index}-horizontal-share-btn` }
           />
-
         </button>
-        {
-          item.tags.map((tag, index2) => (
-            <tag
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-              key={ index2 }
-            >
-              {tag}
-            </tag>
-          ))
-        }
+        <button type="button" onClick={ () => removeFavoriteItem(index) }>
+          <img
+            src="../images/blackHeartIcon.svg"
+            alt="share"
+            data-testid={ `${index}-horizontal-favorite-btn` }
+          />
+        </button>
         {
           isCopy && <span>Link copied!</span>
         }
@@ -78,9 +84,10 @@ function CardProfile({ item, index }) {
   );
 }
 
-CardProfile.propTypes = {
+CardFavorite.propTypes = {
   item: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  renderPage: PropTypes.func.isRequired,
 };
 
-export default CardProfile;
+export default CardFavorite;
