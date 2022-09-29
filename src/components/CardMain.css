@@ -1,39 +1,37 @@
 .card-container {
-  width: 163.35px;
-  height: 166.21px;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   border: 1px solid lightgray;
   border-radius: 5px;
-  align-items: center;
-  padding: 0%;
+  display: flex;
+  flex-direction: column;
+  height: 166.21px;
   margin-top: 5px;
+  padding: 0%;
+  width: 163.35px;
 }
 
 .img-container {
-  width: 100%;
-  height: 134.85px;
-  /* border: solid 1px red; */
   background-position: center;
   background-size: cover;
-  /* box-sizing: border-box; */
+  height: 134.85px;
+  width: 100%;
 }
 
 .card-img {
-  width: 100%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   height: 100%;
   object-fit: cover;
-  border-radius: 5px 5px 0px 0px; 
+  width: 100%;
 }
 
 .name-container {
-  /* background-color: red; */
-  margin-top: 5px;
-  width: 100%;
+  align-items: center;
   bottom: 0%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  margin-top: 5px;
+  width: 100%;
 }
 
 .card-name {

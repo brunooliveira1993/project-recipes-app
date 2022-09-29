@@ -18,16 +18,15 @@
 .footer {
   background-color: yellow;
   bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   left: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
   position: fixed;
   right: 0;
   width: 360px;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  /* padding: 15px; */
 }
 
 .teste {
@@ -87,25 +86,23 @@
 }
 
 .header {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .header-top {
-  background-color: yellow;
-  width: 360px;
-  height: 45px;
-  top: 0;
-  left: 0;
-  /* position: fixed; */
-  right: 0;
-  width: 360px;
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
+  background-color: yellow;
+  display: flex;
+  height: 45px;
+  justify-content: flex-end;
+  left: 0;
   padding-right: 15px;
+  right: 0;
+  top: 0;
+  width: 360px;
 }
 
 .search-icon {
