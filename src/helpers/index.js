@@ -76,8 +76,7 @@ export const isRecipeInProgress = (isMeal, id) => {
     ? currentRecipesInProgress.meals
     : currentRecipesInProgress.drinks;
   if (currentRecipeType) {
-    const isInProgress = Object.keys(currentRecipeType)
-      .some((inProgressId) => inProgressId === id);
+    const isInProgress = Object.keys(currentRecipeType).includes(id);
     return isInProgress;
   }
   return false;
@@ -112,12 +111,21 @@ export const getRecipeProgress = (isMeal, id) => {
   const currentRecipeType = isMeal
     ? currentRecipesInProgress.meals
     : currentRecipesInProgress.drinks;
-  // if (currentRecipeType) {
-  const recipeId = Object.keys(currentRecipeType)
-    .filter((inProgressId) => inProgressId === id);
-  return currentRecipeType[recipeId];
-  // }
-  // return false;
+  if (currentRecipeType) {
+    const recipeId = Object.keys(currentRecipeType)
+      .filter((inProgressId) => inProgressId === id);
+    return currentRecipeType[recipeId] || [];
+  }
+  return [];
+};
+
+export const isRecipeFinished = (recipeDetails, usedIngredients) => {
+  const allIngredientsAmount = (Object.keys(recipeDetails) || [])
+    .filter((ingredient) => ingredient.includes('strIngredient')
+      && recipeDetails[ingredient]).length;
+  const allUsedIngredientsAmount = usedIngredients.length;
+  const areBothAmountsEqual = allIngredientsAmount === allUsedIngredientsAmount;
+  return areBothAmountsEqual;
 };
 
 // Done
@@ -126,4 +134,20 @@ export const isRecipeDone = (id) => {
   const isDone = currentDoneRecipes
     .some(({ id: doneId }) => doneId === id);
   return isDone;
+};
+
+export const handleAddDone = (isMeal, recipeDetails) => {
+  const currentDoneRecipes = getDoneFromLocalStorage() || [];
+  const newDoneRecipe = {
+    id: isMeal ? recipeDetails.idMeal : recipeDetails.idDrink,
+    type: isMeal ? 'meal' : 'drink',
+    nationality: isMeal ? recipeDetails.strArea : '',
+    category: recipeDetails.strCategory,
+    alcoholicOrNot: isMeal ? '' : recipeDetails.strAlcoholic,
+    name: isMeal ? recipeDetails.strMeal : recipeDetails.strDrink,
+    image: isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
+    // doneDate: ,
+    tags: isMeal ? recipeDetails.strTags.split(',') : [],
+  };
+  return [...currentDoneRecipes, newDoneRecipe];
 };

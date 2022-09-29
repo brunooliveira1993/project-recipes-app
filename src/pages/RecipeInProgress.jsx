@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
-import { handleRecipeDetailsApiUrl, handleRemoveFavorite,
-  handleSaveFavorite, isRecipeDone, isRecipeInProgress,
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { handleRecipeDetailsApiUrl, handleRemoveFavorite, handleSaveFavorite,
+  // isRecipeInProgress,
   isMealsOrDrinks, handleSaveOrRemoveInProgress,
-  getRecipeProgress } from '../helpers';
+  getRecipeProgress, isRecipeFinished } from '../helpers';
 import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage, handleInProgressLocalStorage } from '../services';
-import { DRINKS_PATH, IN_PROGRESS_PATH, MEALS_PATH } from '../constants';
+import { DONE_RECIPES_PATH, IN_PROGRESS_PATH } from '../constants';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
@@ -20,12 +20,13 @@ function RecipeInProgress() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [isCopied, setIsCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [usedIngredients, setUsedIngredients] = useState([]);
 
   // On mount Functions
   const isMeal = isMealsOrDrinks(pathname);
-  const isInProgress = isRecipeInProgress(isMeal, id);
-  const isDone = isRecipeDone(id);
+  // const isInProgress = isRecipeInProgress(isMeal, id);
+  const INITIAL_INGRIEDNTS = getRecipeProgress(isMeal, id);
+  const [usedIngredients, setUsedIngredients] = useState(INITIAL_INGRIEDNTS);
+  const isFinished = isRecipeFinished(recipeDetails, usedIngredients);
 
   const isCurrentRecipeFavorite = () => {
     const currentFavoriteRecipes = getFavoriteFromLocalStorage() || [];
@@ -34,10 +35,10 @@ function RecipeInProgress() {
     setIsFavorite(isCurrentRecipeIdAlreadySaved);
   };
 
-  const continueFromSavedProgress = () => {
-    const currentRecipeInProgress = getRecipeProgress(isMeal, id);
-    setUsedIngredients(currentRecipeInProgress);
-  };
+  // const continueFromSavedProgress = () => {
+  //   const currentRecipeInProgress = getRecipeProgress(isMeal, id);
+  //   setUsedIngredients(currentRecipeInProgress);
+  // };
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
@@ -45,7 +46,7 @@ function RecipeInProgress() {
       const newRecipeDetails = Object.values(data)[0][0];
       setRecipeDetails(newRecipeDetails);
       isCurrentRecipeFavorite();
-      if (isInProgress) continueFromSavedProgress();
+      // if (isInProgress) continueFromSavedProgress();
     };
     fetchRecipeDetails();
   }, [id]);
@@ -57,8 +58,7 @@ function RecipeInProgress() {
     copy(`http://localhost:3000${pathnameWithoutInProgress}`);
   };
 
-  const handleStartRecipeButtonClick = () => history
-    .push(`${pathname}${IN_PROGRESS_PATH}`);
+  const handleFinishRecipeButtonClick = () => history.push(DONE_RECIPES_PATH);
 
   // Favorites
   const saveCurrentRecipe = () => {
@@ -76,28 +76,27 @@ function RecipeInProgress() {
     : saveCurrentRecipe());
 
   // In progress
-  const saveIngredient = (value) => {
+  const saveIngredient = (ingredient) => {
     handleInProgressLocalStorage(
-      handleSaveOrRemoveInProgress(isMeal, id, [...usedIngredients, value]),
+      handleSaveOrRemoveInProgress(isMeal, id, [...usedIngredients, ingredient]),
     );
-    setUsedIngredients([...usedIngredients, value]);
+    setUsedIngredients([...usedIngredients, ingredient]);
   };
 
-  const removeIngredient = (value) => {
+  const removeIngredient = (ingredient) => {
     const updatedUsedIngredients = usedIngredients
-      .filter((usedIngredient) => usedIngredient !== value);
+      .filter((usedIngredient) => usedIngredient !== ingredient);
     handleInProgressLocalStorage(
       handleSaveOrRemoveInProgress(isMeal, id, [...updatedUsedIngredients]),
     );
     setUsedIngredients([...updatedUsedIngredients]);
   };
 
-  const handleCheckboxClick = ({ target: { value } }) => {
-    const isIngredientUsed = usedIngredients
-      .some((usedIngredient) => usedIngredient === value);
+  const handleCheckboxClick = ({ target: { value: ingredient } }) => {
+    const isIngredientUsed = usedIngredients.includes(ingredient);
     return isIngredientUsed
-      ? removeIngredient(value)
-      : saveIngredient(value);
+      ? removeIngredient(ingredient)
+      : saveIngredient(ingredient);
   };
 
   // Rendering functions
@@ -109,8 +108,7 @@ function RecipeInProgress() {
       const ingredientIndex = currKey?.replace(/\D/g, '');
       const ingredient = recipeDetails[currKey];
       const measure = recipeDetails[`strMeasure${ingredientIndex}`] || '';
-      const isChecked = usedIngredients
-        .some((usedIngredient) => usedIngredient === ingredient);
+      const isChecked = usedIngredients.includes(ingredientIndex);
       const newIngredientAndMeasure = (
         <div
           key={ currKey }
@@ -124,7 +122,7 @@ function RecipeInProgress() {
             <input
               id={ ingredient }
               type="checkbox"
-              value={ ingredient }
+              value={ ingredientIndex }
               checked={ isChecked }
               onClick={ handleCheckboxClick }
             />
@@ -196,14 +194,14 @@ function RecipeInProgress() {
             title="Embedded youtube"
           />
         </div>) }
-      { !isDone && (
-        <button
-          data-testid="finish-recipe-btn"
-          type="button"
-          onClick={ handleStartRecipeButtonClick }
-        >
-          { isInProgress ? 'Continue Recipe' : 'Start Recipe' }
-        </button>) }
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+        onClick={ handleFinishRecipeButtonClick }
+        disabled={ !isFinished }
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }
