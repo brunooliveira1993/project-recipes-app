@@ -144,13 +144,6 @@ function RecipeDetails() {
       </div>
     );
   };
-  // const renderIngredientsAndMeasures = () => {
-  //   const allIngredients = (Object.keys(recipeDetails) || [])
-  //     .filter((ingredient) => {
-  //       return ingredient.includes('strIngredient') && recipeDetails[ingredient];
-  //     });
-  //   return allIngredients;
-  // };
 
   return (
     <div>
