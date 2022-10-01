@@ -97,7 +97,7 @@ function RecipeDetails() {
   };
 
   const renderIngredientsAndMeasures = () => {
-    const recipeDetailsKeys = (Object.keys(recipeDetails) || []);
+    const recipeDetailsKeys = (Object.keys(recipeDetails));
     const ingredientsAndMeasuresInfo = recipeDetailsKeys
       .reduce(getIngredientsAndMeasuresInfoFromDetails, []);
 
