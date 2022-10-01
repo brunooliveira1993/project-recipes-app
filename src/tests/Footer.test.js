@@ -1,25 +1,31 @@
-// import React from 'react';
-// import { screen } from '@testing-library/react';
-// // import userEvent from '@testing-library/user-event';
-// import App from '../App';
-// import renderWithRouter from '../renderWithRouter';
+import React from 'react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import App from '../App';
+import renderWithRouter from '../renderWithRouter';
 
-// describe('Verifica se o Footer renderiza os itens na tela corretamente', () => {
-//   test('Se contém um link que, ao clicar, recarrega a página com opções de drinks', () => {
-//     const { history } = renderWithRouter(<App />);
-//     history.push('/meals');
+describe('Checks if Footer renders on-screen items correctly', () => {
+  test('If it contains a link that, when clicked, reloads the page with drink options', () => {
+    const { history } = renderWithRouter(<App />, ['/meals']);
 
-//     // const beefButton = screen.getByRole('button', { name: 'Beef' });
+    const linkDrinks = screen.getByTestId('drinks-bottom-btn');
+    expect(linkDrinks).toBeInTheDocument();
 
-//     // expect(beefButton).toBeInTheDocument();
-//   });
+    userEvent.click(linkDrinks);
 
-//   test('Se contém um link que, ao clicar, recarrega a página com opções de meals', () => {
-//     const { history } = renderWithRouter(<App />);
-//     history.push('/drinks');
+    const { pathname } = history.location;
+    expect(pathname).toBe('/drinks');
+  });
 
-//     // const beefButton = screen.getByRole('button', { name: 'Beef' });
+  test('If it contains a link that, when clicked, reloads the page with meals options', () => {
+    const { history } = renderWithRouter(<App />, ['/drinks']);
 
-//     // expect(beefButton).toBeInTheDocument();
-//   });
-// });
+    const linkMeals = screen.getByTestId('meals-bottom-btn');
+    expect(linkMeals).toBeInTheDocument();
+
+    userEvent.click(linkMeals);
+
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals');
+  });
+});
