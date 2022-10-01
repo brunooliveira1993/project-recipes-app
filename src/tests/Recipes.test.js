@@ -9,7 +9,7 @@ describe('Testa a página principal com receitas de comida', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
   });
-  // screen.logTestingPlaygroundURL();
+
   it('a página inicial renderiza as opções de meals', async () => {
     const { history } = renderWithRouter(<App />, ['/meals']);
     const { location: { pathname } } = history;
