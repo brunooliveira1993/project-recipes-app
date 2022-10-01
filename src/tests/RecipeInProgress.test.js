@@ -5,7 +5,6 @@ import App from '../App';
 import fetch from '../../cypress/mocks/fetch';
 import renderWithRouter from '../renderWithRouter';
 import { DONE_RECIPES_PATH } from '../constants';
-// import { IN_PROGRESS_PATH, IN_PROGRESS_RECIPES_KEY } from '../constants';
 
 const TEST_MEAL_IN_PROGRESS_PATH = '/meals/52771/in-progress';
 const TEST_DRINK_IN_PROGRESS_PATH = '/drinks/178319/in-progress';
@@ -158,23 +157,4 @@ describe('Testa a página de detalhes da receita', () => {
 
     expect(pathname).toEqual(DONE_RECIPES_PATH);
   });
-
-  // it('se o botão de continuar uma receita funciona corretamente', async () => {
-  //   global.localStorage.setItem(IN_PROGRESS_RECIPES_KEY, JSON.stringify({
-  //     meals: {
-  //       52771: ['1', '2'],
-  //     },
-  //   }));
-
-  //   const { history } = renderWithRouter(<App />, [TEST_MEAL_PATH]);
-
-  //   const startRecipeButton = await screen.findByTestId(/start-recipe-btn/i);
-  //   expect(startRecipeButton).toBeInTheDocument();
-  //   expect(startRecipeButton).toHaveTextContent('Continue Recipe');
-
-  //   userEvent.click(startRecipeButton);
-
-  //   const { location: { pathname } } = history;
-  //   expect(pathname).toEqual(`${TEST_MEAL_PATH}${IN_PROGRESS_PATH}`);
-  // });
 });
