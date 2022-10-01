@@ -1,33 +1,74 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 
-describe('Verifica se o Header renderiza os itens na tela corretamente', () => {
-  test('Se o título "Meals" é renderizado na tela', () => {
-    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+const SEARCH_TOP_BTN = 'search-top-btn';
 
-    const mealsTitle = screen.getByRole('heading', { level: 1 });
+describe('Checks if the Header renders the items on the screen correctly', () => {
+  test('Whether the title "Meals" is rendered on the screen', () => {
+    renderWithRouter(<App />, ['/meals']);
+
+    const mealsTitle = screen.getByRole('heading', { level: 1, name: /Meals/i });
 
     expect(mealsTitle).toBeInTheDocument();
   });
 
-  //   test('Se contém um link profile que, ao clicar, redireciona para a página de profile', () => {
-  //     const { history } = renderWithRouter(<App />);
-  //     history.push('/meals');
+  test('If it contains a profile link that, when clicked, redirects to the profile page', () => {
+    const { history } = renderWithRouter(<App />, ['/meals']);
 
-  //     // const beefButton = screen.getByRole('button', { name: 'Beef' });
+    const perfilLink = screen.getByAltText(/Imagem de perfil/i);
+    expect(perfilLink).toBeInTheDocument();
 
-  //     // expect(beefButton).toBeInTheDocument();
-  //   });
+    userEvent.click(perfilLink);
 
-  //   test('Se contém um campo de pesquisa para digitar receitas e ingredientes', () => {
-  //     const { history } = renderWithRouter(<App />);
-  //     history.push('/meals');
+    const { pathname } = history.location;
+    const profileTitle = screen.getByRole('heading', { level: 1, name: /Profile/i });
+    expect(pathname).toBe('/profile');
+    expect(profileTitle).toBeInTheDocument();
+  });
 
-  //     // const beefButton = screen.getByRole('button', { name: 'Beef' });
+  test('Whether it contains a search field to enter recipes and ingredients', () => {
+    renderWithRouter(<App />, ['/meals']);
 
-//     // expect(beefButton).toBeInTheDocument();
-//   });
+    const iconForSearch = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(iconForSearch).toBeInTheDocument();
+
+    userEvent.click(iconForSearch);
+
+    const ingredientInputRadio = screen.getByDisplayValue('ingredient');
+    const nameInputRadio = screen.getByDisplayValue('name');
+    const fisrtLetterInputRadio = screen.getByDisplayValue('firstLetter');
+    expect(ingredientInputRadio).toBeInTheDocument();
+    expect(nameInputRadio).toBeInTheDocument();
+    expect(fisrtLetterInputRadio).toBeInTheDocument();
+  });
+
+  test('If, when clicking on the search icon, the search field renders on the screen', () => {
+    renderWithRouter(<App />, ['/meals']);
+
+    const iconForSearch = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(iconForSearch).toBeInTheDocument();
+
+    userEvent.click(iconForSearch);
+
+    const buttonSearch = screen.getByTestId('exec-search-btn');
+    expect(buttonSearch).toBeInTheDocument();
+  });
+
+  test('If, when clicking on the search icon, the search field is hidden', () => {
+    renderWithRouter(<App />, ['/meals']);
+
+    const iconForSearch = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(iconForSearch).toBeInTheDocument();
+
+    userEvent.click(iconForSearch);
+
+    const buttonSearch = screen.getByTestId('exec-search-btn');
+    expect(buttonSearch).toBeInTheDocument();
+
+    userEvent.click(iconForSearch);
+    expect(buttonSearch).not.toBeInTheDocument();
+  });
 });
