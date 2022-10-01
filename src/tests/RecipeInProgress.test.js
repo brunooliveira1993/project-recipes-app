@@ -4,10 +4,11 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import fetch from '../../cypress/mocks/fetch';
 import renderWithRouter from '../renderWithRouter';
-import { IN_PROGRESS_PATH, IN_PROGRESS_RECIPES_KEY } from '../constants';
+import { DONE_RECIPES_PATH } from '../constants';
+// import { IN_PROGRESS_PATH, IN_PROGRESS_RECIPES_KEY } from '../constants';
 
-const TEST_MEAL_PATH = '/meals/52771';
-const TEST_DRINK_PATH = '/drinks/178319';
+const TEST_MEAL_IN_PROGRESS_PATH = '/meals/52771/in-progress';
+const TEST_DRINK_IN_PROGRESS_PATH = '/drinks/178319/in-progress';
 
 describe('Testa a página de detalhes da receita', () => {
   beforeEach(() => {
@@ -15,10 +16,10 @@ describe('Testa a página de detalhes da receita', () => {
   });
   // screen.logTestingPlaygroundURL();
   it('a página inicial renderiza os detalhes da receita de sushi', async () => {
-    const { history } = renderWithRouter(<App />, [TEST_MEAL_PATH]);
+    const { history } = renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
     const { location: { pathname } } = history;
 
-    expect(pathname).toEqual(TEST_MEAL_PATH);
+    expect(pathname).toEqual(TEST_MEAL_IN_PROGRESS_PATH);
 
     const recipeTitle = await screen.findByRole('heading', { name: 'Spicy Arrabiata Penne', level: 1 });
     expect(recipeTitle).toBeInTheDocument();
@@ -26,20 +27,8 @@ describe('Testa a página de detalhes da receita', () => {
     const categoryTitle = await screen.findByRole('heading', { name: 'Vegetarian', level: 3 });
     expect(categoryTitle).toBeInTheDocument();
 
-    const ingredientsTitle = await screen.findByRole('heading', { name: 'Ingredients', level: 2 });
-    expect(ingredientsTitle).toBeInTheDocument();
-
-    const allIngredients = await screen.findAllByTestId(/ingredient-name-and-measure/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
-    expect(allIngredients).toHaveLength(8);
-
-    const instructionsTitle = await screen.findByRole('heading', { name: 'Instructions', level: 2 });
-    expect(instructionsTitle).toBeInTheDocument();
-
-    // const instructionsText = await screen.findByTestId('instructions');
-    // expect(instructionsText).toBeInTheDocument();
-
-    const videoTitle = await screen.findByRole('heading', { name: 'Video', level: 2 });
-    expect(videoTitle).toBeInTheDocument();
+    const allIngredientsCheckboxes = await screen.findAllByTestId(/ingredient-step/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(allIngredientsCheckboxes).toHaveLength(8);
 
     const video = await screen.findByTitle('Embedded youtube');
     expect(video).toBeInTheDocument();
@@ -49,8 +38,8 @@ describe('Testa a página de detalhes da receita', () => {
     expect(recipePhoto).toBeInTheDocument();
     expect(recipePhoto.src).toContain('https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
 
-    const allRecommendations = await screen.findAllByTestId(/recommendation-card/i);
-    expect(allRecommendations).toHaveLength(6);
+    const allRecommendations = screen.queryAllByTestId(/recommendation-card/i);
+    expect(allRecommendations).toHaveLength(0);
 
     const shareButton = await screen.findByTestId(/share-btn/i);
     expect(shareButton).toBeInTheDocument();
@@ -59,11 +48,11 @@ describe('Testa a página de detalhes da receita', () => {
     expect(favoriteButton).toBeInTheDocument();
   });
 
-  it('a página inicial renderiza os detalhes da receita de aquamarine', async () => {
-    const { history } = renderWithRouter(<App />, [TEST_DRINK_PATH]);
+  it('a página inicial renderiza os detalhes da receita de Aquamarine', async () => {
+    const { history } = renderWithRouter(<App />, [TEST_DRINK_IN_PROGRESS_PATH]);
     const { location: { pathname } } = history;
 
-    expect(pathname).toEqual(TEST_DRINK_PATH);
+    expect(pathname).toEqual(TEST_DRINK_IN_PROGRESS_PATH);
 
     const recipeTitle = await screen.findByRole('heading', { name: 'Aquamarine', level: 1 });
     expect(recipeTitle).toBeInTheDocument();
@@ -71,24 +60,15 @@ describe('Testa a página de detalhes da receita', () => {
     const categoryTitle = await screen.findByRole('heading', { name: 'CocktailAlcoholic', level: 3 });
     expect(categoryTitle).toBeInTheDocument();
 
-    const ingredientsTitle = await screen.findByRole('heading', { name: 'Ingredients', level: 2 });
-    expect(ingredientsTitle).toBeInTheDocument();
-
-    const allIngredients = await screen.findAllByTestId(/ingredient-name-and-measure/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
-    expect(allIngredients).toHaveLength(3);
-
-    const instructionsTitle = await screen.findByRole('heading', { name: 'Instructions', level: 2 });
-    expect(instructionsTitle).toBeInTheDocument();
-
-    const videoTitle = screen.queryByTestId('heading', { name: 'Video', level: 2 });
-    expect(videoTitle).not.toBeInTheDocument();
+    const allIngredientsCheckboxes = await screen.findAllByTestId(/ingredient-step/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(allIngredientsCheckboxes).toHaveLength(3);
 
     const recipePhoto = await screen.findByRole('img', { name: 'recipe' });
     expect(recipePhoto).toBeInTheDocument();
     expect(recipePhoto.src).toContain('https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg');
 
-    const allRecommendations = await screen.findAllByTestId(/recommendation-card/i);
-    expect(allRecommendations).toHaveLength(6);
+    const allRecommendations = screen.queryAllByTestId(/recommendation-card/i);
+    expect(allRecommendations).toHaveLength(0);
 
     const shareButton = await screen.findByTestId(/share-btn/i);
     expect(shareButton).toBeInTheDocument();
@@ -98,7 +78,7 @@ describe('Testa a página de detalhes da receita', () => {
   });
 
   it('o botão de favoritos funciona corretamente', async () => {
-    renderWithRouter(<App />, [TEST_MEAL_PATH]);
+    renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
 
     const favoriteButton = await screen.findByTestId(/favorite-btn/i);
     expect(favoriteButton).toBeInTheDocument();
@@ -118,7 +98,7 @@ describe('Testa a página de detalhes da receita', () => {
   });
 
   it('se o botão de favoritos carrega corretamente caso a receita esteja favoritada', async () => {
-    renderWithRouter(<App />, [TEST_MEAL_PATH]);
+    renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
 
     const favoriteButton = await screen.findByTestId(/favorite-btn/i);
     expect(favoriteButton).toBeInTheDocument();
@@ -137,7 +117,7 @@ describe('Testa a página de detalhes da receita', () => {
     });
     jest.spyOn(navigator.clipboard, 'writeText');
 
-    renderWithRouter(<App />, [TEST_MEAL_PATH]);
+    renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
 
     const shareButton = await screen.findByTestId(/share-btn/i);
     expect(shareButton).toBeInTheDocument();
@@ -148,22 +128,53 @@ describe('Testa a página de detalhes da receita', () => {
     expect(linkCopied).toBeInTheDocument();
   });
 
-  it('se o botão de continuar uma receita funciona corretamente', async () => {
-    global.localStorage.setItem(IN_PROGRESS_RECIPES_KEY, JSON.stringify({
-      meals: {
-        52771: ['1', '2'],
-      },
-    }));
+  it('se os checkbox e o botão de finalizar funcionam corretamente', async () => {
+    const { history } = renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
 
-    const { history } = renderWithRouter(<App />, [TEST_MEAL_PATH]);
+    const allIngredientsCheckboxes = await screen.findAllByRole('checkbox'); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(allIngredientsCheckboxes).toHaveLength(8);
 
-    const startRecipeButton = await screen.findByTestId(/start-recipe-btn/i);
-    expect(startRecipeButton).toBeInTheDocument();
-    expect(startRecipeButton).toHaveTextContent('Continue Recipe');
+    const finishButton = await screen.findByTestId(/finish-recipe-btn/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(finishButton).toBeDisabled();
 
-    userEvent.click(startRecipeButton);
+    userEvent.click(allIngredientsCheckboxes[0]);
+    expect(allIngredientsCheckboxes[0]).toBeChecked();
+
+    userEvent.click(allIngredientsCheckboxes[0]);
+    expect(allIngredientsCheckboxes[0]).not.toBeChecked();
+
+    allIngredientsCheckboxes.forEach((checkbox) => {
+      userEvent.click(checkbox);
+    });
+
+    allIngredientsCheckboxes.forEach((checkbox) => {
+      expect(checkbox).toBeChecked();
+    });
+
+    expect(finishButton).not.toBeDisabled();
+    userEvent.click(finishButton);
 
     const { location: { pathname } } = history;
-    expect(pathname).toEqual(`${TEST_MEAL_PATH}${IN_PROGRESS_PATH}`);
+
+    expect(pathname).toEqual(DONE_RECIPES_PATH);
   });
+
+  // it('se o botão de continuar uma receita funciona corretamente', async () => {
+  //   global.localStorage.setItem(IN_PROGRESS_RECIPES_KEY, JSON.stringify({
+  //     meals: {
+  //       52771: ['1', '2'],
+  //     },
+  //   }));
+
+  //   const { history } = renderWithRouter(<App />, [TEST_MEAL_PATH]);
+
+  //   const startRecipeButton = await screen.findByTestId(/start-recipe-btn/i);
+  //   expect(startRecipeButton).toBeInTheDocument();
+  //   expect(startRecipeButton).toHaveTextContent('Continue Recipe');
+
+  //   userEvent.click(startRecipeButton);
+
+  //   const { location: { pathname } } = history;
+  //   expect(pathname).toEqual(`${TEST_MEAL_PATH}${IN_PROGRESS_PATH}`);
+  // });
 });
