@@ -14,7 +14,7 @@ describe('Testa a página de detalhes da receita', () => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
   });
   // screen.logTestingPlaygroundURL();
-  it('a página inicial renderiza os detalhes da receita de sushi', async () => {
+  it('a página inicial renderiza as instruções da receita de sushi', async () => {
     const { history } = renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
     const { location: { pathname } } = history;
 
@@ -47,7 +47,7 @@ describe('Testa a página de detalhes da receita', () => {
     expect(favoriteButton).toBeInTheDocument();
   });
 
-  it('a página inicial renderiza os detalhes da receita de Aquamarine', async () => {
+  it('a página inicial renderiza as instruções da receita de Aquamarine', async () => {
     const { history } = renderWithRouter(<App />, [TEST_DRINK_IN_PROGRESS_PATH]);
     const { location: { pathname } } = history;
 
