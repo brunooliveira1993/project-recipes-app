@@ -43,7 +43,6 @@ function RecipeDetails() {
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
-      if (!id || typeof id !== 'string') return;
       const data = await fetchRecipes(handleRecipeDetailsApiUrl(isMeal, id));
       const newRecipeDetails = Object.values(data)[0][0];
       setRecipeDetails(newRecipeDetails);
@@ -90,8 +89,7 @@ function RecipeDetails() {
           key={ currKey }
           data-testid={ `${ingredientIndex - 1}-ingredient-name-and-measure` }
         >
-          <span>{ ingredient }</span>
-          <span>{ measure }</span>
+          <span>{ `${ingredient} ${measure}` }</span>
         </div>
       );
       return [...accIngredientAndMeasure, newIngredientAndMeasure];
@@ -100,7 +98,7 @@ function RecipeDetails() {
   };
 
   const renderIngredientsAndMeasures = () => {
-    const recipeDetailsKeys = (Object.keys(recipeDetails) || []);
+    const recipeDetailsKeys = (Object.keys(recipeDetails));
     const ingredientsAndMeasuresInfo = recipeDetailsKeys
       .reduce(getIngredientsAndMeasuresInfoFromDetails, []);
 
@@ -154,13 +152,6 @@ function RecipeDetails() {
       </div>
     );
   };
-  // const renderIngredientsAndMeasures = () => {
-  //   const allIngredients = (Object.keys(recipeDetails) || [])
-  //     .filter((ingredient) => {
-  //       return ingredient.includes('strIngredient') && recipeDetails[ingredient];
-  //     });
-  //   return allIngredients;
-  // };
 
   return (
     <div className="recipes-details-container">
