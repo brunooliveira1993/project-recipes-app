@@ -1,6 +1,6 @@
 .recipes-details-container {
   height: 640px;
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
   width: 360px;
 }
 
@@ -44,7 +44,7 @@
 
 .recomendations-container {
   margin-bottom: 45px;
-  overflow: auto;
+  overflow-x: scroll;
   white-space: nowrap;
 }
 
