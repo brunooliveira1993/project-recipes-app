@@ -1,7 +1,6 @@
 .recipes-details-container {
   height: 640px;
   overflow: auto;
-  position: fixed;
   width: 360px;
 }
 
@@ -71,12 +70,11 @@
   padding: 10px;
   position: absolute;
   top: 0;
-  width: 90%;
+  width: 360px;
 }
 
 .header-details {
   align-items: center;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 200px;

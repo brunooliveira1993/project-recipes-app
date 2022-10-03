@@ -3,6 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
+import './Header.css';
 
 function Header() {
   const [actSearch, setActSearch] = useState(false);

@@ -1,0 +1,23 @@
+.header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-top {
+  align-items: center;
+  background-color: yellow;
+  display: flex;
+  height: 45px;
+  justify-content: flex-end;
+  left: 0;
+  padding-right: 15px;
+  right: 0;
+  top: 0;
+  width: 360px;
+}
+
+.search-icon {
+  margin-right: 20px;
+}
