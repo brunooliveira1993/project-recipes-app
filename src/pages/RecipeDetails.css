@@ -22,9 +22,9 @@
   background-position: center;
   background-size: cover;
   height: 100%;
-  width: 100%;
   object-fit: cover;
   object-position: center;
+  width: 100%;
 }
 
 .instructions {
@@ -71,9 +71,9 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  top: 0;
   position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .header-details {
