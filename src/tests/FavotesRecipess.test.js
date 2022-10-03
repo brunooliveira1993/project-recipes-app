@@ -54,6 +54,15 @@ describe('Favorite recipes screen', () => {
     const copyText = screen.getByText('Link copied!');
     expect(copyText).toBeInTheDocument();
   });
+  test('Teste do Botao de Favoritos', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    const { history } = renderWithRouter(<App />, [PATH]);
+    expect(history.location.pathname).toBe(PATH);
+    const firstFavoriteButtons = screen.getByTestId('0-horizontal-favorite-btn');
+    expect(firstFavoriteButtons).toBeInTheDocument();
+    userEvent.click(firstFavoriteButtons);
+    expect(firstFavoriteButtons).not.toBeInTheDocument();
+  });
   test('Teste de Filtros', () => {
     const NAME = '0-horizontal-name';
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));

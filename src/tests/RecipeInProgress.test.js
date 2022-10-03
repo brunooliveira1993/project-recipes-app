@@ -127,11 +127,42 @@ describe('Testa a página de detalhes da receita', () => {
     expect(linkCopied).toBeInTheDocument();
   });
 
-  it('se os checkbox e o botão de finalizar funcionam corretamente', async () => {
+  it('se os checkbox e o botão de finalizar receita de comida funcionam corretamente', async () => {
     const { history } = renderWithRouter(<App />, [TEST_MEAL_IN_PROGRESS_PATH]);
 
     const allIngredientsCheckboxes = await screen.findAllByRole('checkbox'); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
     expect(allIngredientsCheckboxes).toHaveLength(8);
+
+    const finishButton = await screen.findByTestId(/finish-recipe-btn/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(finishButton).toBeDisabled();
+
+    userEvent.click(allIngredientsCheckboxes[0]);
+    expect(allIngredientsCheckboxes[0]).toBeChecked();
+
+    userEvent.click(allIngredientsCheckboxes[0]);
+    expect(allIngredientsCheckboxes[0]).not.toBeChecked();
+
+    allIngredientsCheckboxes.forEach((checkbox) => {
+      userEvent.click(checkbox);
+    });
+
+    allIngredientsCheckboxes.forEach((checkbox) => {
+      expect(checkbox).toBeChecked();
+    });
+
+    expect(finishButton).not.toBeDisabled();
+    userEvent.click(finishButton);
+
+    const { location: { pathname } } = history;
+
+    expect(pathname).toEqual(DONE_RECIPES_PATH);
+  });
+
+  it('se os checkbox e o botão de finalizar receita de comida funcionam corretamente', async () => {
+    const { history } = renderWithRouter(<App />, [TEST_DRINK_IN_PROGRESS_PATH]);
+
+    const allIngredientsCheckboxes = await screen.findAllByRole('checkbox'); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
+    expect(allIngredientsCheckboxes).toHaveLength(3);
 
     const finishButton = await screen.findByTestId(/finish-recipe-btn/i); // Referencia de como usar uma callback para TextMatch https://testing-library.com/docs/queries/about/#textmatch
     expect(finishButton).toBeDisabled();
