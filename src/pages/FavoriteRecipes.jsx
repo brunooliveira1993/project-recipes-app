@@ -18,9 +18,9 @@ function FavoriteRecipes() {
 
   const udatePage = (state) => setLocalStorageCreate(state);
 
-  const renderCard = () => {
-    console.log(renderItem);
-    return renderItem.map((item, index) => (
+  const renderCard = () => renderItem
+    // console.log(renderItem);
+    .map((item, index) => (
       <CardFavorite
         renderPage={ udatePage }
         key={ index }
@@ -28,8 +28,6 @@ function FavoriteRecipes() {
         index={ index }
       />
     ));
-  };
-
   const mealFilter = () => {
     const meals = listDefault.filter((meal) => meal.type === 'meal');
     setRenderItem(meals);
