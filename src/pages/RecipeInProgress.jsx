@@ -11,6 +11,7 @@ import { DONE_RECIPES_PATH, IN_PROGRESS_PATH } from '../constants';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import './RecipeInProgress.css';
 
 const copy = require('clipboard-copy');
 
@@ -152,53 +153,79 @@ function RecipeInProgress() {
   };
 
   return (
-    <div>
-      <input
-        data-testid="share-btn"
-        type="image"
-        src={ shareIcon }
-        alt="share button"
-        onClick={ handleShareButtonClick }
-      />
-      { isCopied && <span>Link copied!</span> }
-      <input
-        data-testid="favorite-btn"
-        type="image"
-        src={ isFavorite
-          ? blackHeartIcon
-          : whiteHeartIcon }
-        alt="favorite button"
-        onClick={ handleFavoriteButtonClick }
-      />
-      <h1 data-testid="recipe-title">
-        { isMeal ? recipeDetails.strMeal : recipeDetails.strDrink }
-      </h1>
-      <h3 data-testid="recipe-category">
-        { recipeDetails.strCategory }
-        { !isMeal && recipeDetails.strAlcoholic }
-      </h3>
-      <img
-        data-testid="recipe-photo"
-        src={ isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb }
-        alt="recipe"
-      />
-      { renderIngredientsAndMeasures() }
-      <section data-testid="instructions">
-        { recipeDetails.strInstructions }
-      </section>
-      { isMeal && (
-        <div data-testid="video">
-          <iframe
-            width="320"
-            height="180"
-            src={ `${recipeDetails.strYoutube?.replace('watch?v=', 'embed/')}` }
-            frameBorder="0"
-            allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="Embedded youtube"
+    <div className="recipes-progress-container">
+      <div className="header-details">
+        <h1 className="recipe-title" data-testid="recipe-title">
+          { isMeal ? recipeDetails.strMeal : recipeDetails.strDrink }
+        </h1>
+        <img
+          className="recipe-img"
+          data-testid="recipe-photo"
+          src={ isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb }
+          alt="recipe"
+        />
+      </div>
+      <div className="top-header">
+        <h3 className="recipe-category" data-testid="recipe-category">
+          { recipeDetails.strCategory }
+          { !isMeal && recipeDetails.strAlcoholic }
+        </h3>
+        <div className="btn-containe">
+          <input
+            className="share-btn"
+            data-testid="share-btn"
+            type="image"
+            src={ shareIcon }
+            alt="share button"
+            onClick={ handleShareButtonClick }
           />
+          { isCopied && <span>Link copied!</span> }
+          <input
+            className="fav-btn"
+            data-testid="favorite-btn"
+            type="image"
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+            onClick={ handleFavoriteButtonClick }
+          />
+        </div>
+      </div>
+      <div className="instructions">
+        <h2>Ingredients</h2>
+        <div className="ingredients-container">
+          { renderIngredientsAndMeasures() }
+        </div>
+      </div>
+      <div className="instructions">
+        <h2>Instructions</h2>
+        <section
+          className="instructions-container"
+          data-testid="instructions"
+        >
+          { recipeDetails.strInstructions }
+        </section>
+      </div>
+      { isMeal && (
+        <div>
+          <h2 className="video-title">Video</h2>
+          <div
+            data-testid="video"
+            className="video"
+          >
+            <iframe
+              width="320"
+              height="180"
+              src={ `${recipeDetails.strYoutube?.replace('watch?v=', 'embed/')}` }
+              frameBorder="0"
+              allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
+          <br />
         </div>) }
       <button
+        className="finish-recipe-btn"
         data-testid="finish-recipe-btn"
         type="button"
         onClick={ handleFinishRecipeButtonClick }
