@@ -1,7 +1,93 @@
+.recipes-details-container {
+  height: 640px;
+  overflow: auto;
+  position: fixed;
+  width: 360px;
+}
+
 .ingredients-container {
   border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 4px;
 }
 
 .instructions-container {
   border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.recipe-img {
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.instructions {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.video {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.video-title {
+  margin-left: 3%;
+}
+
+.recomendations-container {
+  margin-bottom: 45px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.card-recomendation {
+  display: inline-block;
+  margin: 5px;
+}
+
+.start-recipe-btn {
+  background-color: rgb(255, 191, 0);
+  border: none;
+  border-radius: 7px;
+  bottom: 0;
+  color: white;
+  font-size: larger;
+  font-weight: 600;
+  height: 40px;
+  position: fixed;
+  width: 100%;
+}
+
+.top-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  width: 90%;
+}
+
+.header-details {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: center;
+}
+
+.recipe-title {
+  color: white;
+  position: absolute;
+}
+
+.fav-btn {
+  margin-left: 15px;
 }
