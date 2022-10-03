@@ -3,24 +3,16 @@ import Header from '../components/Header';
 import CardProfile from '../components/CardProfile';
 
 function DoneRecipes() {
-  const readUser = () => {
-    if (Object.keys(localStorage).includes('doneRecipes')) {
-      return JSON.parse(localStorage.getItem('doneRecipes'));
-    }
-    const saveUser = (user) => localStorage.setItem('doneRecipes', JSON.stringify(user));
-    saveUser([]);
-    return JSON.parse(localStorage.getItem('doneRecipes'));
-  };
-  const [listDefault, setListDefault] = useState(readUser());
+  const [listDefault, setListDefault] = useState();
   const [renderItem, setRenderItem] = useState([]);
   const [localStorageCreate, setLocalStorageCreate] = useState(false);
 
   useEffect(() => {
-    const user = readUser();
-    if (user !== []) {
+    if (Object.keys(localStorage).includes('doneRecipes')) {
+      const favorite = JSON.parse(localStorage.getItem('doneRecipes'));
       setLocalStorageCreate(true);
-      setRenderItem(user);
-      setListDefault(user);
+      setRenderItem(favorite);
+      setListDefault(favorite);
     }
   }, []);
 
