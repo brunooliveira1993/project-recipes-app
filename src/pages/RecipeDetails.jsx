@@ -3,10 +3,8 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import CardMain from '../components/CardMain';
 import RecipesContext from '../context/RecipesContext';
 import { handleDefaultApiUrl, handleRecipeDetailsApiUrl,
-  handleRemoveFavorite,
-  handleSaveFavorite,
-  isRecipeDone,
-  isRecipeInProgress,
+  handleRemoveFavorite, handleSaveFavorite,
+  isRecipeDone, isRecipeInProgress,
   isMealsOrDrinks } from '../helpers';
 import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage } from '../services';
@@ -107,7 +105,10 @@ function RecipeDetails() {
       .reduce(getIngredientsAndMeasuresInfoFromDetails, []);
 
     return (
-      <div data-testid="instructions">
+      <div
+        data-testid="instructions"
+        className="instructions"
+      >
         <h2>Ingredients</h2>
         <div className="ingredients-container">
           { ingredientsAndMeasuresInfo }
@@ -129,17 +130,21 @@ function RecipeDetails() {
           ? `${MEALS_PATH}/${recommendationId}`
           : `${DRINKS_PATH}/${recommendationId}`;
         return (
-          <Link
+          <div
             key={ recommendationId }
-            to={ path }
+            className="card-recomendation"
           >
-            <CardMain
-              isRecommendation
-              index={ index }
-              img={ image }
-              title={ title }
-            />
-          </Link>
+            <Link
+              to={ path }
+            >
+              <CardMain
+                isRecommendation
+                index={ index }
+                img={ image }
+                title={ title }
+              />
+            </Link>
+          </div>
         );
       });
 
@@ -158,60 +163,78 @@ function RecipeDetails() {
   // };
 
   return (
-    <div>
-      <input
-        data-testid="share-btn"
-        type="image"
-        src={ shareIcon }
-        alt="share button"
-        onClick={ handleShareButtonClick }
-      />
-      { isCopied && <span>Link copied!</span> }
-      <input
-        data-testid="favorite-btn"
-        type="image"
-        src={ isFavorite
-          ? blackHeartIcon
-          : whiteHeartIcon }
-        alt="favorite button"
-        onClick={ handleFavoriteButtonClick }
-      />
-      <h1 data-testid="recipe-title">
-        { isMeal ? recipeDetails.strMeal : recipeDetails.strDrink }
-      </h1>
-      <h3 data-testid="recipe-category">
-        { recipeDetails.strCategory }
-        { !isMeal && recipeDetails.strAlcoholic }
-      </h3>
-      <img
-        data-testid="recipe-photo"
-        src={ isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb }
-        alt="recipe"
-      />
+    <div className="recipes-details-container">
+      <div className="header-details">
+        <div className="top-header">
+          <h3 className="recipe-category" data-testid="recipe-category">
+            { recipeDetails.strCategory }
+            { !isMeal && recipeDetails.strAlcoholic }
+          </h3>
+          <div className="btn-container">
+            <input
+              className="share-btn"
+              data-testid="share-btn"
+              type="image"
+              src={ shareIcon }
+              alt="share button"
+              onClick={ handleShareButtonClick }
+            />
+            { isCopied && <span>Link copied!</span> }
+            <input
+              className="fav-btn"
+              data-testid="favorite-btn"
+              type="image"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favorite button"
+              onClick={ handleFavoriteButtonClick }
+            />
+          </div>
+        </div>
+        <h1 className="recipe-title" data-testid="recipe-title">
+          { isMeal ? recipeDetails.strMeal : recipeDetails.strDrink }
+        </h1>
+        <img
+          className="recipe-img"
+          data-testid="recipe-photo"
+          src={ isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb }
+          alt="recipe"
+        />
+      </div>
       { renderIngredientsAndMeasures() }
-      <h2>Instructions</h2>
-      <section
-        className="instructions-container"
-        data-testid="instructions"
-      >
-        { recipeDetails.strInstructions }
-      </section>
+      <div className="instructions">
+        <h2>Instructions</h2>
+        <section
+          className="instructions-container"
+          data-testid="instructions"
+        >
+          { recipeDetails.strInstructions }
+        </section>
+      </div>
       { isMeal && (
-        <div data-testid="video">
-          <h2>Video</h2>
-          <iframe
-            width="320"
-            height="180"
-            src={ `${recipeDetails.strYoutube?.replace('watch?v=', 'embed/')}` }
-            frameBorder="0"
-            allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="Embedded youtube"
-          />
+        <div>
+          <h2 className="video-title">Video</h2>
+          <div
+            data-testid="video"
+            className="video"
+          >
+            <iframe
+              width="320"
+              height="180"
+              src={ `${recipeDetails.strYoutube?.replace('watch?v=', 'embed/')}` }
+              frameBorder="0"
+              allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
+          <br />
         </div>) }
-      { renderRecommendations() }
+      <div className="recomendations-container">
+        { renderRecommendations() }
+      </div>
       { !isDone && (
         <button
+          className="start-recipe-btn"
           data-testid="start-recipe-btn"
           type="button"
           onClick={ handleStartRecipeButtonClick }
