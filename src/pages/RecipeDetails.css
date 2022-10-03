@@ -1,7 +1,6 @@
 .recipes-details-container {
   height: 640px;
-  overflow: auto;
-  position: fixed;
+  overflow-x: scroll;
   width: 360px;
 }
 

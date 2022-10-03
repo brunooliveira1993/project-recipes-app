@@ -147,7 +147,7 @@ function RecipeDetails() {
       });
 
     return (
-      <div className="recommendations-container">
+      <div className="recomendations-container">
         { recommendedRecipesCards }
       </div>
     );
@@ -220,9 +220,7 @@ function RecipeDetails() {
           </div>
           <br />
         </div>) }
-      <div className="recomendations-container">
-        { renderRecommendations() }
-      </div>
+      { renderRecommendations() }
       { !isDone && (
         <button
           className="start-recipe-btn"
