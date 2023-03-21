@@ -1,0 +1,35 @@
+.login-container {
+  width: 360px;
+  height: 640px;
+  background-image: url('../images/login.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  height: 25px;
+  border: 2px solid #fb7c2b;
+  border-radius: 4px;
+}
+
+.login-btn {
+  background-color: #0e9d99;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-size: larger;
+  font-weight: 600;
+  height: 40px;
+  width: 80px;
+  height: 30px;
+}

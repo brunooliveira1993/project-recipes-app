@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ALL_BTN, CATEGORIES_MAX_AMOUNT, DEFAULT_RECIPES_MAX_AMOUNT } from '../constants';
+import { CATEGORIES_MAX_AMOUNT, DEFAULT_RECIPES_MAX_AMOUNT,
+  CATEGORY_NEED_WRAP } from '../constants';
 import RecipesContext from '../context/RecipesContext';
 import { handleCategoryCatalogApiUrl, handleCategoryRecipesApiUrl, handleDefaultApiUrl,
   isMealsOrDrinks } from '../helpers';
@@ -9,6 +10,18 @@ import Footer from '../components/Footer';
 import CardMain from '../components/CardMain';
 import { fetchRecipes } from '../services';
 import './Recipes.css';
+import meals0 from '../images/category/meals/beef.svg';
+import meals1 from '../images/category/meals/breakfast.svg';
+import meals2 from '../images/category/meals/chicken.svg';
+import meals3 from '../images/category/meals/dessert.svg';
+import meals4 from '../images/category/meals/lamb.svg';
+import meals5 from '../images/category/meals/all.svg';
+import drinks0 from '../images/category/drinks/ordinary.svg';
+import drinks1 from '../images/category/drinks/cocktail.svg';
+import drinks2 from '../images/category/drinks/shake.svg';
+import drinks3 from '../images/category/drinks/other.svg';
+import drinks4 from '../images/category/drinks/cocoa.svg';
+import drinks5 from '../images/category/drinks/all.svg';
 
 function Recipes() {
   const {
@@ -30,6 +43,11 @@ function Recipes() {
     };
     fetchCategories();
   }, [isMeal]);
+
+  // Categorys svg array
+
+  const mealsImg = [meals0, meals1, meals2, meals3, meals4];
+  const drinksImg = [drinks0, drinks1, drinks2, drinks3, drinks4];
 
   // Handling function
   const toggleCategoryButton = (category) => (prevCategory) => {
@@ -86,27 +104,39 @@ function Recipes() {
       .slice(0, CATEGORIES_MAX_AMOUNT);
 
     const categoryFilterButtons = requiredCategories
-      .map(({ strCategory }) => (
-        <button
-          data-testid={ `${strCategory}-category-filter` }
+      .map(({ strCategory }, index) => (
+        <div
+          className="category"
           key={ strCategory }
-          type="button"
-          data-category={ strCategory }
-          onClick={ handleCategoryButtonClick }
         >
-          { strCategory }
-        </button>));
+          <input
+            className={ `${index}-category` }
+            data-testid={ `${strCategory}-category-filter` }
+            type="image"
+            src={ isMeal ? mealsImg[index] : drinksImg[index] }
+            alt="category-img"
+            onClick={ handleCategoryButtonClick }
+          />
+          <span
+            className="category-name"
+          >
+            { !isMeal && index === CATEGORY_NEED_WRAP ? 'Other/ Unknow ' : strCategory }
+          </span>
+        </div>));
 
     return (
-      <div>
+      <div className="category-container">
         { categoryFilterButtons }
-        <button
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ handleAllCategoriesButtonClick }
-        >
-          { ALL_BTN }
-        </button>
+        <div className="category">
+          <input
+            data-testid="All-category-filter"
+            type="image"
+            src={ isMeal ? meals5 : drinks5 }
+            alt="category-img"
+            onClick={ handleAllCategoriesButtonClick }
+          />
+          <span className="category-name">All</span>
+        </div>
       </div>
     );
   };
@@ -116,6 +146,7 @@ function Recipes() {
       <Header />
       { renderCategoryButtons() }
       { renderRecipes() }
+      <div className="pre-footer" />
       <Footer />
     </div>
   );

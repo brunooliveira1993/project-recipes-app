@@ -1,0 +1,33 @@
+.done-main-container {
+  width: 360px;
+  height: 640px;
+  align-items: center;
+  border: 1px red solid;
+}
+
+.cards-done-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 50px;
+}
+
+.filter-done-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  align-self: center;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.done-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}

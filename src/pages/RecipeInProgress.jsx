@@ -9,7 +9,7 @@ import { fetchRecipes, getFavoriteFromLocalStorage,
   handleFavoritesLocalStorage, handleInProgressLocalStorage } from '../services';
 import { DONE_RECIPES_PATH, IN_PROGRESS_PATH } from '../constants';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import whiteHeartIcon from '../images/like.png';
 import shareIcon from '../images/shareIcon.svg';
 import './RecipeInProgress.css';
 
@@ -191,13 +191,13 @@ function RecipeInProgress() {
         </div>
       </div>
       <div className="instructions">
-        <h2>Ingredients</h2>
+        <h2 className="section-title">Ingredients</h2>
         <div className="ingredients-container">
           { renderIngredientsAndMeasures() }
         </div>
       </div>
       <div className="instructions">
-        <h2>Instructions</h2>
+        <h2 className="section-title">Instructions</h2>
         <section
           className="instructions-container"
           data-testid="instructions"

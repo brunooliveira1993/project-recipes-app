@@ -5,14 +5,13 @@
   justify-content: center;
 }
 
-.header-top {
+.main-header-top {
   align-items: center;
-  background-color: yellow;
+  background-color: #008d8e;
   display: flex;
-  height: 45px;
-  justify-content: flex-end;
+  height: 50px;
+  justify-content: space-between;
   left: 0;
-  padding-right: 15px;
   right: 0;
   top: 0;
   width: 360px;
@@ -20,4 +19,28 @@
 
 .search-icon {
   margin-right: 20px;
+}
+
+.profile-top-btn {
+  margin-right: 15px;
+}
+
+.logo-img {
+  width: 70px;
+  margin-left: 15px;
+}
+
+.page-title {
+  color: #008d8e;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.title-container img {
+  height: 40px;
 }

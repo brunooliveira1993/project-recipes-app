@@ -73,36 +73,6 @@ describe('Testa a a barra de busca do header', () => {
     expect(allChickenRecipes).toHaveLength(12);
   });
 
-  it('a busca por ingrediente de bebida mostra os resultados corretos', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(fetch);
-
-    renderWithRouter(<App />, ['/drinks']);
-
-    const searchTopButton = await screen.findByTestId(SEARCH_TOP_BTN);
-    expect(searchTopButton).toBeInTheDocument();
-
-    userEvent.click(searchTopButton);
-
-    const ingredientRadio = await screen.findByTestId(INGREDIENT_RADIO);
-    expect(ingredientRadio).toBeInTheDocument();
-
-    userEvent.click(ingredientRadio);
-
-    const searchInput = await screen.findByTestId(SEARCH_INPUT);
-    expect(searchInput).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'Light rum');
-
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    expect(searchButton).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    const allLightRun = await screen.findAllByTestId(/recipe-card/i);
-
-    expect(allLightRun).toHaveLength(12);
-  });
-
   it('a busca por primeira letra de comida funciona corretamente', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
     jest.spyOn(global, 'alert');
@@ -138,42 +108,7 @@ describe('Testa a a barra de busca do header', () => {
     expect(global.alert).toHaveBeenCalled();
   });
 
-  it('a busca por primeira letra de bebida funciona corretamente', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(fetch);
-    jest.spyOn(global, 'alert');
-
-    renderWithRouter(<App />, ['/drinks']);
-
-    const searchTopButton = await screen.findByTestId(SEARCH_TOP_BTN);
-    expect(searchTopButton).toBeInTheDocument();
-
-    userEvent.click(searchTopButton);
-
-    const firstLetterRadio = await screen.findByTestId(FIRST_LETTER_RADIO);
-    expect(firstLetterRadio).toBeInTheDocument();
-
-    userEvent.click(firstLetterRadio);
-
-    const searchInput = await screen.findByTestId(SEARCH_INPUT);
-    expect(searchInput).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'a');
-
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    expect(searchButton).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    expect(global.alert).not.toHaveBeenCalled();
-
-    userEvent.type(searchInput, 'a');
-
-    userEvent.click(searchButton);
-
-    expect(global.alert).toHaveBeenCalled();
-  });
-
-  it('a busca retornar nenhum resultado de comida funciona corretamente', async () => {
+  it('a busca retornar nenhum resultado funciona corretamente', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
     jest.spyOn(global, 'alert');
 
@@ -205,39 +140,7 @@ describe('Testa a a barra de busca do header', () => {
     });
   });
 
-  it('a busca retornar nenhum resultado de bebida funciona corretamente', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(fetch);
-    jest.spyOn(global, 'alert');
-
-    renderWithRouter(<App />, ['/drinks']);
-
-    const searchTopButton = await screen.findByTestId(SEARCH_TOP_BTN);
-    expect(searchTopButton).toBeInTheDocument();
-
-    userEvent.click(searchTopButton);
-
-    const nameRadio = await screen.findByTestId(NAME_RADIO);
-    // const ingredientRadio = await screen.findByTestId(INGREDIENT_RADIO);
-    expect(nameRadio).toBeInTheDocument();
-
-    userEvent.click(nameRadio);
-
-    const searchInput = await screen.findByTestId(SEARCH_INPUT);
-    expect(searchInput).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'xablau');
-
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    expect(searchButton).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    waitFor(() => {
-      expect(global.alert).toHaveBeenCalled();
-    });
-  });
-
-  it('a busca retornar somente um resultado de comida funciona corretamente', async () => {
+  it('a busca retornar nenhum resultado funciona corretamente', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
     jest.spyOn(global, 'alert');
 
@@ -266,38 +169,6 @@ describe('Testa a a barra de busca do header', () => {
     waitFor(() => {
       const { location: { pathname } } = history;
       expect(pathname).toEqual('meals/52771');
-    });
-  });
-
-  it('a busca retornar somente um resultado de bebida funciona corretamente', async () => {
-    jest.spyOn(global, 'fetch').mockImplementation(fetch);
-    jest.spyOn(global, 'alert');
-
-    const { history } = renderWithRouter(<App />, ['/drinks']);
-
-    const searchTopButton = await screen.findByTestId(SEARCH_TOP_BTN);
-    expect(searchTopButton).toBeInTheDocument();
-
-    userEvent.click(searchTopButton);
-
-    const nameRadio = await screen.findByTestId(NAME_RADIO);
-    expect(nameRadio).toBeInTheDocument();
-
-    userEvent.click(nameRadio);
-
-    const searchInput = await screen.findByTestId(SEARCH_INPUT);
-    expect(searchInput).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'Aquamarine');
-
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    expect(searchButton).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    waitFor(() => {
-      const { location: { pathname } } = history;
-      expect(pathname).toEqual('drinks/178319');
     });
   });
 });

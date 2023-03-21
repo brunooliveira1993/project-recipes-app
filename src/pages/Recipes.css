@@ -6,6 +6,9 @@
   margin: 0%;
   position: absolute;
   width: 360px;
+  height: 640px;
+  /* background-color: #fac39b ; */
+  /* background-image: url('../images/background.png'); */
 }
 
 .recipies-container {
@@ -14,6 +17,36 @@
   flex-flow: row wrap;
   justify-content: space-around;
   justify-items: center;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   width: 336.35px;
 }
+
+.category-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+}
+
+.category-name {
+  font-size: x-small;
+  text-align: center;
+}
+
+.pre-footer {
+  height: 10px;
+  border: 3px solid white;
+}
+
+

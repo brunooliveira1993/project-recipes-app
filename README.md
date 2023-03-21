@@ -27,10 +27,6 @@
 </details>
 
 <details>
-  <summary><strong>🗓 Entrega</strong></summary><br />
-  
-  * Este projeto é em grupo;
-  * São `6` dias de projeto;
 
 </details><br />
 

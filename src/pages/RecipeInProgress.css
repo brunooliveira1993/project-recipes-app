@@ -6,13 +6,13 @@
 }
 
 .ingredients-container {
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   border-radius: 3px;
   padding: 10px;
 }
 
 .instructions-container {
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   border-radius: 3px;
   padding: 10px;
   text-align: justify;
@@ -43,19 +43,8 @@
   margin-left: 3%;
 }
 
-.recomendations-container {
-  margin-bottom: 45px;
-  overflow: auto;
-  white-space: nowrap;
-}
-
-.card-recomendation {
-  display: inline-block;
-  margin: 5px;
-}
-
 .finish-recipe-btn {
-  background-color: rgb(255, 191, 0);
+  background-color: #008d8e;
   border: none;
   border-radius: 7px;
   color: white;
