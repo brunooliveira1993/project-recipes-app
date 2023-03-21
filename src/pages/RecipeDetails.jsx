@@ -89,7 +89,7 @@ function RecipeDetails() {
           key={ currKey }
           data-testid={ `${ingredientIndex - 1}-ingredient-name-and-measure` }
         >
-          <span>{ `${ingredient} ${measure}` }</span>
+          <span>{ `• ${ingredient} ${measure}` }</span>
         </div>
       );
       return [...accIngredientAndMeasure, newIngredientAndMeasure];
@@ -147,7 +147,7 @@ function RecipeDetails() {
       });
 
     return (
-      <div className="recommendations-container">
+      <div className="recomendations-container">
         { recommendedRecipesCards }
       </div>
     );
@@ -156,31 +156,6 @@ function RecipeDetails() {
   return (
     <div className="recipes-details-container">
       <div className="header-details">
-        <div className="top-header">
-          <h3 className="recipe-category" data-testid="recipe-category">
-            { recipeDetails.strCategory }
-            { !isMeal && recipeDetails.strAlcoholic }
-          </h3>
-          <div className="btn-container">
-            <input
-              className="share-btn"
-              data-testid="share-btn"
-              type="image"
-              src={ shareIcon }
-              alt="share button"
-              onClick={ handleShareButtonClick }
-            />
-            { isCopied && <span>Link copied!</span> }
-            <input
-              className="fav-btn"
-              data-testid="favorite-btn"
-              type="image"
-              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-              alt="favorite button"
-              onClick={ handleFavoriteButtonClick }
-            />
-          </div>
-        </div>
         <h1 className="recipe-title" data-testid="recipe-title">
           { isMeal ? recipeDetails.strMeal : recipeDetails.strDrink }
         </h1>
@@ -190,6 +165,31 @@ function RecipeDetails() {
           src={ isMeal ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb }
           alt="recipe"
         />
+      </div>
+      <div className="top-header">
+        <h3 className="recipe-category" data-testid="recipe-category">
+          { recipeDetails.strCategory }
+          { !isMeal && recipeDetails.strAlcoholic }
+        </h3>
+        <div className="btn-container">
+          <input
+            className="share-btn"
+            data-testid="share-btn"
+            type="image"
+            src={ shareIcon }
+            alt="share button"
+            onClick={ handleShareButtonClick }
+          />
+          { isCopied && <span>Link copied!</span> }
+          <input
+            className="fav-btn"
+            data-testid="favorite-btn"
+            type="image"
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite button"
+            onClick={ handleFavoriteButtonClick }
+          />
+        </div>
       </div>
       { renderIngredientsAndMeasures() }
       <div className="instructions">
@@ -220,9 +220,7 @@ function RecipeDetails() {
           </div>
           <br />
         </div>) }
-      <div className="recomendations-container">
-        { renderRecommendations() }
-      </div>
+      { renderRecommendations() }
       { !isDone && (
         <button
           className="start-recipe-btn"

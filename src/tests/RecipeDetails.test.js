@@ -97,8 +97,28 @@ describe('Testa a página de detalhes da receita', () => {
     expect(favoriteButton).toBeInTheDocument();
   });
 
-  it('o botão de favoritos funciona corretamente', async () => {
+  it('o botão de favoritos de comida funciona corretamente', async () => {
     renderWithRouter(<App />, [TEST_MEAL_PATH]);
+
+    const favoriteButton = await screen.findByTestId(/favorite-btn/i);
+    expect(favoriteButton).toBeInTheDocument();
+    expect(favoriteButton.src).toMatch(/whiteHeartIcon/i);
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton.src).toMatch(/blackHeartIcon/i);
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton.src).toMatch(/whiteHeartIcon/i);
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton.src).toMatch(/blackHeartIcon/i);
+  });
+
+  it('o botão de favoritos de bebida funciona corretamente', async () => {
+    renderWithRouter(<App />, [TEST_DRINK_PATH]);
 
     const favoriteButton = await screen.findByTestId(/favorite-btn/i);
     expect(favoriteButton).toBeInTheDocument();
@@ -129,7 +149,19 @@ describe('Testa a página de detalhes da receita', () => {
     expect(favoriteButton.src).toMatch(/whiteHeartIcon/i);
   });
 
-  it('se o botão de compartilhar funciona corretamente', async () => {
+  it('se o botão de favoritos carrega corretamente caso a receita esteja favoritada', async () => {
+    renderWithRouter(<App />, [TEST_DRINK_PATH]);
+
+    const favoriteButton = await screen.findByTestId(/favorite-btn/i);
+    expect(favoriteButton).toBeInTheDocument();
+    expect(favoriteButton.src).toMatch(/blackHeartIcon/i);
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton.src).toMatch(/whiteHeartIcon/i);
+  });
+
+  it('se o botão de compartilhar comida funciona corretamente', async () => {
     Object.assign(navigator, {
       clipboard: {
         writeText: jest.fn(),
@@ -148,7 +180,26 @@ describe('Testa a página de detalhes da receita', () => {
     expect(linkCopied).toBeInTheDocument();
   });
 
-  it('se o botão de continuar uma receita funciona corretamente', async () => {
+  it('se o botão de compartilhar bebida funciona corretamente', async () => {
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: jest.fn(),
+      },
+    });
+    jest.spyOn(navigator.clipboard, 'writeText');
+
+    renderWithRouter(<App />, [TEST_DRINK_PATH]);
+
+    const shareButton = await screen.findByTestId(/share-btn/i);
+    expect(shareButton).toBeInTheDocument();
+
+    userEvent.click(shareButton);
+
+    const linkCopied = await screen.findByText('Link copied!');
+    expect(linkCopied).toBeInTheDocument();
+  });
+
+  it('se o botão de continuar uma receita de comida funciona corretamente', async () => {
     global.localStorage.setItem(IN_PROGRESS_RECIPES_KEY, JSON.stringify({
       meals: {
         52771: ['1', '2'],
@@ -165,5 +216,24 @@ describe('Testa a página de detalhes da receita', () => {
 
     const { location: { pathname } } = history;
     expect(pathname).toEqual(`${TEST_MEAL_PATH}${IN_PROGRESS_PATH}`);
+  });
+
+  it('se o botão de continuar uma receita de bebida funciona corretamente', async () => {
+    global.localStorage.setItem(IN_PROGRESS_RECIPES_KEY, JSON.stringify({
+      drinks: {
+        178319: ['1', '2'],
+      },
+    }));
+
+    const { history } = renderWithRouter(<App />, [TEST_DRINK_PATH]);
+
+    const startRecipeButton = await screen.findByTestId(/start-recipe-btn/i);
+    expect(startRecipeButton).toBeInTheDocument();
+    expect(startRecipeButton).toHaveTextContent('Continue Recipe');
+
+    userEvent.click(startRecipeButton);
+
+    const { location: { pathname } } = history;
+    expect(pathname).toEqual(`${TEST_DRINK_PATH}${IN_PROGRESS_PATH}`);
   });
 });

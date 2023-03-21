@@ -1,5 +1,7 @@
-.recipes-details-container {
+.recipes-progress-container {
   height: 640px;
+  overflow: auto;
+  position: fixed;
   width: 360px;
 }
 
@@ -43,7 +45,7 @@
 
 .recomendations-container {
   margin-bottom: 45px;
-  overflow-x: scroll;
+  overflow: auto;
   white-space: nowrap;
 }
 
@@ -52,16 +54,14 @@
   margin: 5px;
 }
 
-.start-recipe-btn {
+.finish-recipe-btn {
   background-color: rgb(255, 191, 0);
   border: none;
   border-radius: 7px;
-  bottom: 0;
   color: white;
   font-size: larger;
   font-weight: 600;
   height: 40px;
-  position: fixed;
   width: 100%;
 }
 
@@ -85,6 +85,7 @@
 .recipe-title {
   color: white;
   position: absolute;
+  text-shadow: 2px 2px 2px black;
 }
 
 .recipe-category {
