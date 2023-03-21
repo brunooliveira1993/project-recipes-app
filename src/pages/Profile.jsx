@@ -7,6 +7,10 @@ import {
   FAVORITE_RECIPES_PATH, LOGOUT_BTN,
 } from '../constants';
 import { removeEmailLocalStorage } from '../services';
+import './Profile.css';
+import done from '../images/done.svg';
+import fav from '../images/fav.svg';
+import logout from '../images/logout.svg';
 
 function Profile() {
   const history = useHistory();
@@ -30,39 +34,52 @@ function Profile() {
   }, []);
 
   return (
-    <div>
+    <div className="main-profile-container">
       <Header />
       <Footer />
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ () => history.push(DONE_RECIPES_PATH) }
-      >
-        {DONE_RECIPES_BTN}
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => history.push(FAVORITE_RECIPES_PATH) }
-      >
-        {FAVORITE_RECIPES_BTN}
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ () => {
-          removeEmailLocalStorage();
-          history.push('/');
-        } }
-      >
-        {LOGOUT_BTN}
-      </button>
-      <br />
-      {
-        createUser && (
-          <h3 data-testid="profile-email">{userName}</h3>
-        )
-      }
+      <div className="profile-container">
+        {
+          createUser && (
+            <h3 data-testid="profile-email">{userName}</h3>
+          )
+        }
+        <label htmlFor="done-logo" className="btn-profile">
+          <input
+            id="done-logo"
+            type="image"
+            src={ done }
+            alt="done-logo"
+            data-testid="profile-done-btn"
+            onClick={ () => history.push(DONE_RECIPES_PATH) }
+          />
+          <span className="btn-title">{DONE_RECIPES_BTN}</span>
+        </label>
+        <label htmlFor="fav-logo" className="btn-profile" id="fav-logo-container">
+          <input
+            id="fav-logo"
+            type="image"
+            src={ fav }
+            alt="fav-logo"
+            data-testid="profile-favorite-btn"
+            onClick={ () => history.push(FAVORITE_RECIPES_PATH) }
+          />
+          <span className="btn-title">{FAVORITE_RECIPES_BTN}</span>
+        </label>
+        <label htmlFor="logout-logo" className="btn-profile">
+          <input
+            id="logout-logo"
+            type="image"
+            src={ logout }
+            alt="logout-logo"
+            data-testid="profile-logout-btn"
+            onClick={ () => {
+              removeEmailLocalStorage();
+              history.push('/');
+            } }
+          />
+          <span className="btn-title">{LOGOUT_BTN}</span>
+        </label>
+      </div>
     </div>
   );
 }

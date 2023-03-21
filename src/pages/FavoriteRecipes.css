@@ -1,0 +1,32 @@
+.favorites-main-container {
+  width: 360px;
+  height: 640px;
+  align-items: center;
+}
+
+.cards-fav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 50px;
+}
+
+.filter-fav-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  align-self: center;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.fav-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}

@@ -1,6 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import CardFavorite from '../components/CardFavorite';
+import './FavoriteRecipes.css';
+import all from '../images/all.svg';
+import drinksLogo from '../images/drinks.svg';
+import mealsLogo from '../images/meals.svg';
 
 function FavoriteRecipes() {
   const [listDefault, setListDefault] = useState();
@@ -18,9 +23,9 @@ function FavoriteRecipes() {
 
   const udatePage = (state) => setLocalStorageCreate(state);
 
-  const renderCard = () => renderItem
-    // console.log(renderItem);
-    .map((item, index) => (
+  const renderCard = () => {
+    console.log(renderItem);
+    return renderItem.map((item, index) => (
       <CardFavorite
         renderPage={ udatePage }
         key={ index }
@@ -28,6 +33,8 @@ function FavoriteRecipes() {
         index={ index }
       />
     ));
+  };
+
   const mealFilter = () => {
     const meals = listDefault.filter((meal) => meal.type === 'meal');
     setRenderItem(meals);
@@ -43,30 +50,45 @@ function FavoriteRecipes() {
   };
 
   return (
-    <div>
+    <div className="favorites-main-container">
       <Header />
-      <button
-        onClick={ allFilter }
-        type="button"
-        data-testid="filter-by-all-btn"
-      >
-        All
-      </button>
-      <button
-        onClick={ mealFilter }
-        type="button"
-        data-testid="filter-by-meal-btn"
-      >
-        Meal
-      </button>
-      <button
-        onClick={ drinkFilter }
-        type="button"
-        data-testid="filter-by-drink-btn"
-      >
-        Drink
-      </button>
-      {localStorageCreate && renderCard()}
+      <div className="filter-fav-container">
+        <div className="fav-filter">
+          <input
+            data-testid="filter-by-all-btn"
+            type="image"
+            src={ all }
+            alt="category-logo"
+            onClick={ allFilter }
+          />
+          <span className="filter-name">All</span>
+        </div>
+        <div className="fav-filter">
+          <input
+            data-testid="filter-by-meal-btn"
+            type="image"
+            src={ mealsLogo }
+            alt="category-logo"
+            onClick={ mealFilter }
+          />
+          <span className="filter-name">Meal</span>
+        </div>
+        <div className="fav-filter">
+          <input
+            data-testid="filter-by-drink-btn"
+            type="image"
+            src={ drinksLogo }
+            alt="category-logo"
+            onClick={ drinkFilter }
+          />
+          <span className="filter-name">Drink</span>
+        </div>
+      </div>
+      <div className="cards-fav-container">
+        {localStorageCreate && renderCard()}
+      </div>
+      <div className="pre-footer" />
+      <Footer />
     </div>
   );
 }

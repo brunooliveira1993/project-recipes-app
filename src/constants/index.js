@@ -38,6 +38,7 @@ export const CATEGORIES_MAX_AMOUNT = 5;
 export const DEFAULT_RECIPES_MAX_AMOUNT = 12;
 export const PASSWORD_MIN_LENGTH = 6;
 export const RECOMMENDATIONS_RECIPES_MAX_AMOUNT = 6;
+export const CATEGORY_NEED_WRAP = 3;
 
 // Path
 export const DRINKS_PATH = '/drinks';

@@ -1,6 +1,6 @@
 .search-bar {
   align-items: center;
-  background-color: blueviolet;
+  background-color: #008d8e;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@
 }
 
 .btn-search {
-  background-color: rgb(255, 191, 0);
+  background-color: #FB7C2B;
   border: none;
   border-radius: 7px;
   color: white;

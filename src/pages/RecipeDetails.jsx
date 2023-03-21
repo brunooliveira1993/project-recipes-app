@@ -11,7 +11,7 @@ import { fetchRecipes, getFavoriteFromLocalStorage,
 import { DRINKS_PATH, IN_PROGRESS_PATH, MEALS_PATH,
   RECOMMENDATIONS_RECIPES_MAX_AMOUNT } from '../constants';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import whiteHeartIcon from '../images/like.png';
 import shareIcon from '../images/shareIcon.svg';
 import './RecipeDetails.css';
 
@@ -57,6 +57,7 @@ function RecipeDetails() {
     setIsCopied(true);
     copy(`http://localhost:3000${pathname}`);
   };
+  
 
   const saveCurrentRecipe = () => {
     handleFavoritesLocalStorage(handleSaveFavorite(isMeal, recipeDetails));
@@ -107,7 +108,7 @@ function RecipeDetails() {
         data-testid="instructions"
         className="instructions"
       >
-        <h2>Ingredients</h2>
+        <h2 className="section-title">Ingredients</h2>
         <div className="ingredients-container">
           { ingredientsAndMeasuresInfo }
         </div>
@@ -193,7 +194,7 @@ function RecipeDetails() {
       </div>
       { renderIngredientsAndMeasures() }
       <div className="instructions">
-        <h2>Instructions</h2>
+        <h2 className="section-title">Instructions</h2>
         <section
           className="instructions-container"
           data-testid="instructions"
@@ -220,7 +221,10 @@ function RecipeDetails() {
           </div>
           <br />
         </div>) }
-      { renderRecommendations() }
+      <div className="instructions">
+        <h2 className="section-title">Sugestions</h2>
+        { renderRecommendations() }
+      </div>
       { !isDone && (
         <button
           className="start-recipe-btn"
