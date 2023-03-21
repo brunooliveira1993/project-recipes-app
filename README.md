@@ -32,14 +32,6 @@
 
 # Requisitos
 
-:warning: **PULL REQUESTS COM ERROS DE LINTER NÃO SERÃO AVALIADAS.** :warning:
-
-Nesse projeto, a pessoa que estiver utilizando o app pode procurar uma receita específica, explorar receitas baseado em diferentes critérios, favoritar e fazer as receitas, entre outras funcionalidades.
-
-As telas sofrem variações dependendo do tipo da receita (se é comida ou bebida, no caso).
-
-***Obs: A maneira como as APIs devem ser estruturadas segue os seguintes modelos: https://www.themealdb.com/api.php e https://www.thecocktaildb.com/api.php***
-
 ## Testes unitários
 
 ### 1 - Desenvolva os testes unitários de maneira que a cobertura seja de, no mínimo, 90%
